@@ -3,6 +3,7 @@ function trackOneParams(xPosition, zPosition) {
         return true
     } else if (xPosition >= -1125 && xPosition <= -250 && zPosition >= -800 && zPosition <= 1000) {
         return true
-    }
+    } 
+
     return false
 }

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>My first three.js app</title>
+    <title>Downforce</title>
     <style>
         body {
             margin: 0;
@@ -134,7 +134,6 @@
         boundingBox.addEventListener('collision', handleCollision)
                 // scene.add(boundingBox);
 
-
         var sphereGeometry = new THREE.SphereGeometry(1000, 64, 64, 0, Math.PI, 0, Math.PI/2)
         var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xffffff})
         var sphere = new Physijs.SphereMesh(sphereGeometry, sphereMaterial)
@@ -154,6 +153,12 @@
         outerSphere.position.set(-740, 0, 1350)
 
         var collidableObjects = [frontstretch, frontstretch2, cylinder, cylinder2, backstretch]
+
+        var geometry = new THREE.PlaneGeometry(600, 300);
+        var material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+        var plane = new Physijs.PlaneMesh(geometry, material);
+        scene.add(plane);
+
 
         var animate = function () {
             requestAnimationFrame(animate);
@@ -203,24 +208,16 @@
             velX = velocity * Math.sin(angle);
             velZ = velocity * Math.cos(angle);
 
-            // car.position.z -= (velZ)
-            // car.position.x -= (velX)
-
             if (trackOneParams(boundingBox.position.x, boundingBox.position.z)) {
                 velX = -velX;
                 velocity *= 0.9;
-                // // velZ = -3;
-                // velocity = 0;
             }
 
             boundingBox.position.z -= (velZ)
             boundingBox.position.x -= (velX)
 
-
             car.position.x = boundingBox.position.x
             car.position.z = boundingBox.position.z
-            // camera.position.x -= (velX)
-            // camera.position.z -= (velZ)
 
             // camera.position.x = car.position.x
             // camera.position.z = car.position.z
