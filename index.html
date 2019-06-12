@@ -19,7 +19,18 @@
     <script src="js/three.js"></script>
     <script src="js/controls/OrbitControls.js"></script>
     <script src="GLTFLoader.js"></script>
+    <script src="js/keyUpHandler.js"></script>
+    <script src="js/keyDownHandler.js"></script>
+    <script src="js/collisions.js"></script>
+    <script type="text/javascript" src="/js/physi.js"></script>
+
     <script>
+
+        'use strict';
+
+        Physijs.scripts.worker = '/js/physijs_worker.js';
+        Physijs.scripts.ammo = '/js/ammo.js';
+
         var rightPressed = false;
         var leftPressed = false;
         var upPressed = false;
@@ -27,37 +38,6 @@
 
         document.addEventListener("keydown", keyDownHandler, false);
         document.addEventListener("keyup", keyUpHandler, false);
-
-    function keyDownHandler(e) {
-        if (e.key == "Right" || e.key == "ArrowRight") {
-            rightPressed = true;
-        }
-        else if (e.key == "Left" || e.key == "ArrowLeft") {
-            leftPressed = true;
-        }
-        else if (e.key == "Up" || e.key == "ArrowUp") {
-            upPressed = true;
-        }
-        else if (e.key == "Down" || e.key == "ArrowDown") {
-            downPressed = true;
-        }
-    }
-
-    function keyUpHandler(e) {
-        if (e.key == "Right" || e.key == "ArrowRight") {
-            rightPressed = false;
-        }
-        else if (e.key == "Left" || e.key == "ArrowLeft") {
-            leftPressed = false;
-        }
-        else if (e.key == "Up" || e.key == "ArrowUp") {
-            upPressed = false;
-        }
-        else if (e.key == "Down" || e.key == "ArrowDown") {
-            downPressed = false;
-        }
-    }
-
 
         var velocity = 0;
         var velX = 0;
@@ -79,36 +59,56 @@
 
         loader.load('2018_nascar_camaro/scene.gltf', function (gltf) {
             car = gltf.scene;
-            scene.add(gltf.scene); 
+            scene.add(gltf.scene);
         }, undefined, function (error) {
             console.error(error);
         })
 
-        var geometry = new THREE.BoxGeometry(100, 300, 100);
+        var geometry = new THREE.BoxGeometry(90, 300, 90);
         var material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
         var tower = new THREE.Mesh(geometry, material);
         var tower2 = new THREE.Mesh(geometry, material);
         scene.add(tower);
         scene.add(tower2);
-        tower2.position.set(100, 0, 100);
+        tower.position.set(-300, 150, 0);
+        tower2.position.set(300, 150, 0);
 
-        var frontstretchGeometry = new THREE.BoxGeometry(100, 100, 1000);
+        geometry = new THREE.BoxGeometry(100, 100, 200);
+        material = new THREE.MeshBasicMaterial({color: 0xff0add});
+        var boundingBox = new THREE.Mesh(geometry, material);
+        scene.add(boundingBox);
+
+        var frontstretchGeometry = new THREE.BoxGeometry(100, 100, 2000);
         var frontstretchMaterial = new THREE.MeshBasicMaterial({ color: 0xff7800});
         var frontstretch = new THREE.Mesh(frontstretchGeometry, frontstretchMaterial);
+        var frontstretch2 = new THREE.Mesh(frontstretchGeometry, frontstretchMaterial);
         scene.add(frontstretch);
-        frontstretch.position.set(200, 0, 200);
+        scene.add(frontstretch2);
+        frontstretch.position.set(300, 50, 200);
+        frontstretch2.position.set(-300, 50, 200);
 
-        var cylinderGeometry = new THREE.CylinderGeometry (2000, 2000, 1000, 16,)
+        var backstretch = new THREE.Mesh(frontstretchGeometry, frontstretchMaterial);
+        scene.add(backstretch);
+        backstretch.position.set(-1180, 50, 200);
 
+        var cylinderGeometry = new THREE.CylinderGeometry (500, 500, 150, 64, 1, false, 0)
+        var cylinderMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff})
+        var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+        var cylinder2 = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+        scene.add (cylinder)
+        scene.add (cylinder2)
+        cylinder.position.set(-740, 75, 1150)
+        cylinder2.position.set(-740, 75, -950)
 
         var controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableKeys = false;
 
             //controls.update() must be called after any manual changes to the camera's transform
             // camera.position.set(0, 75, 200)
-            camera.position.set(0, 1500, 0)
+            camera.position.set(0, 3000, 0)
             controls.update();
 
+        var collidableObjects = [frontstretch, frontstretch2, cylinder, cylinder2, backstretch]
 
         var animate = function () {
             requestAnimationFrame(animate);
@@ -121,10 +121,10 @@
             var downforce = .312 * (Math.pow((velocity * .44704), 2))
 
             if (upPressed && velocity >= 0) {
-                var acceleration = (22.7 - (0.0864 * velocity) - (0.0000892 * Math.pow(velocity, 2)))/60
+                var acceleration = (22.7 - (0.0864 * velocity) - (0.0000892 * Math.pow(velocity, 2)))/120
                 velocity += acceleration
             } else if (upPressed && velocity < 0) {
-                var deceleration = (-33.6 - 3.12 * Math.log(Math.abs(velocity))) / 20
+                var deceleration = (-33.6 - 3.12 * Math.log(Math.abs(velocity))) / 120
                 velocity -= deceleration
             }
 
@@ -141,28 +141,40 @@
             if (leftPressed) {
                 angle += angleChange;
                 car.rotation.y += angleChange;
+                boundingBox.rotation.y += angleChange;
                 // camera.rotation.y += angleChange;
             }
 
             if (rightPressed) {
                 angle -= angleChange;
                 car.rotation.y -= angleChange;
+                boundingBox.rotation.y -= angleChange;
                 // camera.rotation.y -= angleChange;
             }
-            
+
+            if (!upPressed && !downPressed) {
             velocity *= 0.99;
+            }
             //these are swapped because of the starting direction of the car.
             //X should be calculated from cosine, Z from sine
             velX = velocity * Math.sin(angle);
             velZ = velocity * Math.cos(angle);
-            
+
             car.position.z -= (velZ)
             car.position.x -= (velX)
 
-            // camera.position.x += (velX)
+            boundingBox.position.z -= (velZ)
+            boundingBox.position.x -= (velX)
+
+            // camera.position.x -= (velX)
             // camera.position.z -= (velZ)
 
-            debugger
+            // if (collisions(boundingBox, collidableObjects)) {
+            //     velocity = 0;
+            // }
+
+            camera.lookAt(car);
+
             controls.update();
 
             renderer.render(scene, camera);
