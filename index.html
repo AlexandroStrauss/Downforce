@@ -22,6 +22,7 @@
     <script src="js/keyUpHandler.js"></script>
     <script src="js/keyDownHandler.js"></script>
     <script src="js/collisions.js"></script>
+    <script src="js/trackOneParams.js"></script>
     <script type="text/javascript" src="/js/physi.js"></script>
 
     <script>
@@ -44,7 +45,7 @@
         var velZ = 0;
         var angle = 0;
 
-        var scene = new THREE.Scene();
+        var scene = new Physijs.Scene();
         scene.background = new THREE.Color(0xff0000);
 
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -57,56 +58,100 @@
 
         var car;
 
+        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableKeys = false;
+
+        //controls.update() must be called after any manual changes to the camera's transform
+        // camera.position.set(0, 75, 200)
+        camera.position.set(-840, 3500, 0)
+
+        // camera.lookAt(scene.position)
+        controls.update();
+
+
         loader.load('2018_nascar_camaro/scene.gltf', function (gltf) {
             car = gltf.scene;
+            // car.add(camera);
             scene.add(gltf.scene);
         }, undefined, function (error) {
             console.error(error);
         })
 
-        var geometry = new THREE.BoxGeometry(90, 300, 90);
-        var material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-        var tower = new THREE.Mesh(geometry, material);
-        var tower2 = new THREE.Mesh(geometry, material);
+        var tower, tower2, boundingBox;
+
+        tower = new Physijs.BoxMesh(
+            new THREE.BoxGeometry(90, 300, 90),
+            new THREE.MeshBasicMaterial({ color: 0x0000ff }));
         scene.add(tower);
+
+        tower2 = new Physijs.BoxMesh(
+            new THREE.BoxGeometry(90, 300, 90),
+            new THREE.MeshBasicMaterial({ color: 0x0000ff }));
         scene.add(tower2);
+
         tower.position.set(-300, 150, 0);
         tower2.position.set(300, 150, 0);
 
-        geometry = new THREE.BoxGeometry(100, 100, 200);
-        material = new THREE.MeshBasicMaterial({color: 0xff0add});
-        var boundingBox = new THREE.Mesh(geometry, material);
-        scene.add(boundingBox);
+        var outsideStraightGeometry = new THREE.BoxGeometry(100, 100, 2400);
 
-        var frontstretchGeometry = new THREE.BoxGeometry(100, 100, 2000);
-        var frontstretchMaterial = new THREE.MeshBasicMaterial({ color: 0xff7800});
-        var frontstretch = new THREE.Mesh(frontstretchGeometry, frontstretchMaterial);
-        var frontstretch2 = new THREE.Mesh(frontstretchGeometry, frontstretchMaterial);
+        var frontstretchGeometry = new THREE.BoxGeometry(100, 100, 2050);
+        var frontstretchMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff});
+        var insideMaterial = new THREE.MeshBasicMaterial({color: 0x111111})
+        var frontstretch = new Physijs.BoxMesh(outsideStraightGeometry, insideMaterial);
+        var frontstretch2 = new Physijs.BoxMesh(frontstretchGeometry, frontstretchMaterial);
         scene.add(frontstretch);
         scene.add(frontstretch2);
         frontstretch.position.set(300, 50, 200);
         frontstretch2.position.set(-300, 50, 200);
 
-        var backstretch = new THREE.Mesh(frontstretchGeometry, frontstretchMaterial);
+        var backstretch = new Physijs.BoxMesh(frontstretchGeometry, frontstretchMaterial);
         scene.add(backstretch);
         backstretch.position.set(-1180, 50, 200);
+        var backstretch2 = new Physijs.BoxMesh(outsideStraightGeometry, insideMaterial);
+        scene.add(backstretch2);
+        backstretch2.position.set(-1780, 50, 200);
+
 
         var cylinderGeometry = new THREE.CylinderGeometry (500, 500, 150, 64, 1, false, 0)
-        var cylinderMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff})
-        var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-        var cylinder2 = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+        var cylinderMaterial = new THREE.MeshBasicMaterial({ color: 0x111111})
+        var cylinder = new Physijs.BoxMesh(cylinderGeometry, cylinderMaterial);
+        var cylinder2 = new Physijs.BoxMesh(cylinderGeometry, cylinderMaterial);
         scene.add (cylinder)
         scene.add (cylinder2)
         cylinder.position.set(-740, 75, 1150)
         cylinder2.position.set(-740, 75, -950)
 
-        var controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableKeys = false;
+        var bound_geometry = new THREE.BoxGeometry(100, 100, 200),
+            handleCollision = function (collided_with, linearVelocity, angularVelocity, contact_normal) {
+                console.log('bonk');
+                console.log(linearVelocity);
+            }
 
-            //controls.update() must be called after any manual changes to the camera's transform
-            // camera.position.set(0, 75, 200)
-            camera.position.set(0, 3000, 0)
-            controls.update();
+        boundingBox = new Physijs.BoxMesh(
+            bound_geometry,
+            new THREE.MeshBasicMaterial({color: 0xff0add})
+        )
+        boundingBox.addEventListener('collision', handleCollision)
+                // scene.add(boundingBox);
+
+
+        var sphereGeometry = new THREE.SphereGeometry(1000, 64, 64, 0, Math.PI, 0, Math.PI/2)
+        var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xffffff})
+        var sphere = new Physijs.SphereMesh(sphereGeometry, sphereMaterial)
+        sphere.material.side = THREE.BackSide;
+        scene.add(sphere)
+        sphere.position.set(-740, 0, 1350)
+
+        var otherSphereGeometry = new THREE.SphereGeometry(1000, 64, 64, Math.PI, Math.PI, 0, Math.PI / 2)
+        var sphere2 = new Physijs.SphereMesh(otherSphereGeometry, sphereMaterial)
+        sphere2.material.side = THREE.BackSide;
+        scene.add(sphere2)
+        sphere2.position.set(-740, 0, -1000)
+
+        var outerSphereGeometry = new THREE.SphereGeometry(1100, 64, 64, 0, Math.PI, 0, Math.PI / 2)
+        var outerSphere = new Physijs.SphereMesh(outerSphereGeometry, sphereMaterial)
+        scene.add(outerSphere)
+        outerSphere.position.set(-740, 0, 1350)
 
         var collidableObjects = [frontstretch, frontstretch2, cylinder, cylinder2, backstretch]
 
@@ -142,40 +187,56 @@
                 angle += angleChange;
                 car.rotation.y += angleChange;
                 boundingBox.rotation.y += angleChange;
-                // camera.rotation.y += angleChange;
             }
 
             if (rightPressed) {
                 angle -= angleChange;
                 car.rotation.y -= angleChange;
                 boundingBox.rotation.y -= angleChange;
-                // camera.rotation.y -= angleChange;
             }
 
             if (!upPressed && !downPressed) {
-            velocity *= 0.99;
+            velocity *= 0.999;
             }
             //these are swapped because of the starting direction of the car.
             //X should be calculated from cosine, Z from sine
             velX = velocity * Math.sin(angle);
             velZ = velocity * Math.cos(angle);
 
-            car.position.z -= (velZ)
-            car.position.x -= (velX)
+            // car.position.z -= (velZ)
+            // car.position.x -= (velX)
+
+            if (trackOneParams(boundingBox.position.x, boundingBox.position.z)) {
+                velX = -velX;
+                velocity *= 0.9;
+                // // velZ = -3;
+                // velocity = 0;
+            }
 
             boundingBox.position.z -= (velZ)
             boundingBox.position.x -= (velX)
 
+
+            car.position.x = boundingBox.position.x
+            car.position.z = boundingBox.position.z
             // camera.position.x -= (velX)
             // camera.position.z -= (velZ)
+
+            // camera.position.x = car.position.x
+            // camera.position.z = car.position.z
+
+            // collisions(boundingBox, collidableObjects)
 
             // if (collisions(boundingBox, collidableObjects)) {
             //     velocity = 0;
             // }
 
-            camera.lookAt(car);
+            // camera.lookAt(car.position)
 
             controls.update();
+            // camera.rotation.x = 0
+            // camera.rotation.z = 0
+            // camera.rotation.y = car.rotation.y
 
             renderer.render(scene, camera);
         };
