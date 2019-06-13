@@ -23,7 +23,16 @@
     <script src="js/keyDownHandler.js"></script>
     <script src="js/collisions.js"></script>
     <script src="js/trackOneParams.js"></script>
+    <script src="js/crossedLine.js"></script>
+    <script src="js/trackOneGeometry.js"></script>
     <script type="text/javascript" src="/js/physi.js"></script>
+
+    <div class="camera-selector">
+        <input type="radio" name="cameraType" value="third-person">Chase Cam</div>
+        <input type="radio" name="cameraType" value="first-person">Roof Cam</div>
+        <input type="radio" name="cameraType" value="birds-eye">Overhead Cam</div>
+        <input type="submit" value="Change Camera" />
+    </div>
 
     <script>
 
@@ -44,6 +53,10 @@
         var velX = 0;
         var velZ = 0;
         var angle = 0;
+        var lapCount = 0;
+        var cameraType = "birds-eye"
+        console.log(lapCount);
+
 
         var scene = new Physijs.Scene();
         scene.background = new THREE.Color(0xff0000);
@@ -62,12 +75,10 @@
         controls.enableKeys = false;
 
         //controls.update() must be called after any manual changes to the camera's transform
-        // camera.position.set(0, 75, 200)
-        camera.position.set(-840, 3500, 0)
+        
 
         // camera.lookAt(scene.position)
         controls.update();
-
 
         loader.load('2018_nascar_camaro/scene.gltf', function (gltf) {
             car = gltf.scene;
@@ -77,51 +88,10 @@
             console.error(error);
         })
 
-        var tower, tower2, boundingBox;
 
-        tower = new Physijs.BoxMesh(
-            new THREE.BoxGeometry(90, 300, 90),
-            new THREE.MeshBasicMaterial({ color: 0x0000ff }));
-        scene.add(tower);
+        var boundingBox;
 
-        tower2 = new Physijs.BoxMesh(
-            new THREE.BoxGeometry(90, 300, 90),
-            new THREE.MeshBasicMaterial({ color: 0x0000ff }));
-        scene.add(tower2);
-
-        tower.position.set(-300, 150, 0);
-        tower2.position.set(300, 150, 0);
-
-        var outsideStraightGeometry = new THREE.BoxGeometry(100, 100, 2400);
-
-        var frontstretchGeometry = new THREE.BoxGeometry(100, 100, 2050);
-        var frontstretchMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff});
-        var insideMaterial = new THREE.MeshBasicMaterial({color: 0x111111})
-        var frontstretch = new Physijs.BoxMesh(outsideStraightGeometry, insideMaterial);
-        var frontstretch2 = new Physijs.BoxMesh(frontstretchGeometry, frontstretchMaterial);
-        scene.add(frontstretch);
-        scene.add(frontstretch2);
-        frontstretch.position.set(300, 50, 200);
-        frontstretch2.position.set(-300, 50, 200);
-
-        var backstretch = new Physijs.BoxMesh(frontstretchGeometry, frontstretchMaterial);
-        scene.add(backstretch);
-        backstretch.position.set(-1180, 50, 200);
-        var backstretch2 = new Physijs.BoxMesh(outsideStraightGeometry, insideMaterial);
-        scene.add(backstretch2);
-        backstretch2.position.set(-1780, 50, 200);
-
-
-        var cylinderGeometry = new THREE.CylinderGeometry (500, 500, 150, 64, 1, false, 0)
-        var cylinderMaterial = new THREE.MeshBasicMaterial({ color: 0x111111})
-        var cylinder = new Physijs.BoxMesh(cylinderGeometry, cylinderMaterial);
-        var cylinder2 = new Physijs.BoxMesh(cylinderGeometry, cylinderMaterial);
-        scene.add (cylinder)
-        scene.add (cylinder2)
-        cylinder.position.set(-740, 75, 1150)
-        cylinder2.position.set(-740, 75, -950)
-
-        var bound_geometry = new THREE.BoxGeometry(100, 100, 200),
+        var bound_geometry = new THREE.BoxGeometry(50, 50, 150),
             handleCollision = function (collided_with, linearVelocity, angularVelocity, contact_normal) {
                 console.log('bonk');
                 console.log(linearVelocity);
@@ -132,36 +102,33 @@
             new THREE.MeshBasicMaterial({color: 0xff0add})
         )
         boundingBox.addEventListener('collision', handleCollision)
-                // scene.add(boundingBox);
+        scene.add(boundingBox);
+        boundingBox.material.transparent = true;
+        boundingBox.material.opacity = 0;
 
-        var sphereGeometry = new THREE.SphereGeometry(1000, 64, 64, 0, Math.PI, 0, Math.PI/2)
-        var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xffffff})
-        var sphere = new Physijs.SphereMesh(sphereGeometry, sphereMaterial)
-        sphere.material.side = THREE.BackSide;
-        scene.add(sphere)
-        sphere.position.set(-740, 0, 1350)
+        if (cameraType === "first-person") {
+                camera.position.set(0, 75, 200)
+            } else if (cameraType === "third-person") {
+                camera.position.y = 50
+                camera.position.z = 150
+                boundingBox.add(camera);
+            } else {
+                camera.position.set(-840, 3500, 0)
+        }
 
-        var otherSphereGeometry = new THREE.SphereGeometry(1000, 64, 64, Math.PI, Math.PI, 0, Math.PI / 2)
-        var sphere2 = new Physijs.SphereMesh(otherSphereGeometry, sphereMaterial)
-        sphere2.material.side = THREE.BackSide;
-        scene.add(sphere2)
-        sphere2.position.set(-740, 0, -1000)
 
-        var outerSphereGeometry = new THREE.SphereGeometry(1100, 64, 64, 0, Math.PI, 0, Math.PI / 2)
-        var outerSphere = new Physijs.SphereMesh(outerSphereGeometry, sphereMaterial)
-        scene.add(outerSphere)
-        outerSphere.position.set(-740, 0, 1350)
+        var collidableObjects = trackOneGeometry();
 
-        var collidableObjects = [frontstretch, frontstretch2, cylinder, cylinder2, backstretch]
-
-        var geometry = new THREE.PlaneGeometry(600, 300);
+        var geometry = new THREE.PlaneGeometry(600, 300, 32);
         var material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
-        var plane = new Physijs.PlaneMesh(geometry, material);
-        scene.add(plane);
-
+        var plane = new THREE.Mesh(geometry, material);
+        // scene.add(plane);
+        plane.transparent = true;
+        var speedHUD;
 
         var animate = function () {
             requestAnimationFrame(animate);
+            // scene.remove(speedHUD);
 
             // car.rotation.x += 0.02;
             // car.rotation.y += 0.02;
@@ -186,7 +153,7 @@
             }
 
             // var angleChange = Math.log(1/((Math.abs(velocity) ) / 600))/150;
-            var angleChange = velocity/600;
+            var angleChange = velocity/3000;
 
             if (leftPressed) {
                 angle += angleChange;
@@ -208,38 +175,87 @@
             velX = velocity * Math.sin(angle);
             velZ = velocity * Math.cos(angle);
 
-            if (trackOneParams(boundingBox.position.x, boundingBox.position.z)) {
-                velX = -velX;
+            // if (trackOneParams(boundingBox.position.x, boundingBox.position.z)) {
+            //     velX = -velX;
+            //     velocity *= 0.9;
+            // }
+
+            if (collisions(boundingBox, collidableObjects)) {
+                if (car.position.z > 0) {
+                velX = -Math.abs(velX);
+                velZ = -Math.abs(velZ);
+                } else {
+                    velX = -velX;
+                    velZ = -velZ;
+                }
                 velocity *= 0.9;
             }
 
-            boundingBox.position.z -= (velZ)
-            boundingBox.position.x -= (velX)
+
+            boundingBox.position.z -= (velZ / 4)
+            boundingBox.position.x -= (velX / 4)
 
             car.position.x = boundingBox.position.x
             car.position.z = boundingBox.position.z
 
-            // camera.position.x = car.position.x
-            // camera.position.z = car.position.z
-
-            // collisions(boundingBox, collidableObjects)
-
-            // if (collisions(boundingBox, collidableObjects)) {
-            //     velocity = 0;
-            // }
 
             // camera.lookAt(car.position)
 
-            controls.update();
-            // camera.rotation.x = 0
-            // camera.rotation.z = 0
-            // camera.rotation.y = car.rotation.y
+            // if (crossedLine(boundingBox, velocity, plane)) {
+            //     lapCount += 1
+            //     console.log(lapCount)
+            // }
 
+            var speedReadout = Math.floor(velocity) + " MPH"
+            var downforceReadout = Math.floor(downforce) + " lbs"
+
+            var loader = new THREE.FontLoader();
+                
+            loader.load('fonts/Gilroy Light_Regular.json', function (font) {
+
+                var geometry = new THREE.TextGeometry(speedReadout, {
+                    font: font,
+                    size: 80,
+                    height: 50,
+                    curveSegments: 6,
+                    bevelEnabled: false,
+                });
+                
+            });
+            var material = new THREE.MeshBasicMaterial({color: 0x00fff0});
+            var speedHUD = new THREE.Mesh(geometry, material);
+            scene.add(speedHUD);
+
+
+
+
+            controls.update();
+            if (cameraType === 'first-person') {
+                camera.position.x = car.position.x
+                camera.position.z = car.position.z
+
+                camera.rotation.x = 0
+                camera.rotation.z = 0
+                camera.rotation.y = car.rotation.y
+
+            } 
+            else if (cameraType === 'third-person') {
+            //     camera.position.x -= (velX * Math.abs(Math.sin(car.rotation.y)))
+            //     camera.position.z -= (velZ * Math.abs(Math.cos(car.rotation.y)))
+
+                camera.rotation.x = 0
+                camera.rotation.z = 0
+                camera.rotation.y = 0
+                // camera.rotation.y = car.rotation.y/(Math.PI)
+            }
+            
             renderer.render(scene, camera);
         };
 
         animate();
+
     </script>
+
 </body>
 
 </html>
