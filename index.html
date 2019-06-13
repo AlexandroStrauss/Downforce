@@ -125,28 +125,27 @@
         downforceReadout = Math.floor(downforce) + " lbs"
 
 
-
-
         var loader = new THREE.FontLoader();
-            loader.load('fonts/optimer_regular.typeface.json', function (font) {
+        //     loader.load('fonts/optimer_regular.typeface.json', function (font) {
 
-            downforceHUDGeometry = new THREE.TextGeometry(downforceReadout, {
-                font: font,
-                size: 4,
-                height: 1,
-                curveSegments: 6,
-                bevelEnabled: false,
-            })
-            downforceHUDMaterial = new THREE.MeshBasicMaterial({ color: 0xcd0000 })
-            downforceHUD = new THREE.Mesh(downforceHUDGeometry, downforceHUDMaterial);
-            downforceHUD.position.set(5, 30, 110);
+        //     downforceHUDGeometry = new THREE.TextGeometry(downforceReadout, {
+        //         font: font,
+        //         size: 4,
+        //         height: 1,
+        //         curveSegments: 6,
+        //         bevelEnabled: false,
+        //     })
+        //     downforceHUDMaterial = new THREE.MeshBasicMaterial({ color: 0xcd0000 })
+        //     downforceHUD = new THREE.Mesh(downforceHUDGeometry, downforceHUDMaterial);
 
-            scene.add(downforceHUD);
-            car.add(downforceHUD);
+        //     scene.add(downforceHUD);
+        //     car.add(downforceHUD);
+        //                 downforceHUD.position.set(5, 30, 110);
+
             
-            downforceHUD.geometry.needsUpdate = true;
+        //     downforceHUD.geometry.needsUpdate = true;
 
-        })
+        // })
 
         var updatePhysics = function () {
             
@@ -228,8 +227,10 @@
 
             downforceReadout = Math.floor(downforce) + " lbs"
             speedReadout = Math.floor(velocity) + " MPH"
-
+            if(speedHUD) {    
+                debugger
             scene.remove(speedHUD);
+            }
             loader.load('fonts/optimer_regular.typeface.json', function (font) {
 
                 speedHUDGeometry = new THREE.TextGeometry(speedReadout, {
@@ -243,12 +244,14 @@
                     // bevelOffset: 0
                 });
 
+                if (velocity < 10) {
                 speedHUDMaterial = new THREE.MeshBasicMaterial({ color: 0x00fff0 });
                 speedHUD = new THREE.Mesh(speedHUDGeometry, speedHUDMaterial);
                 scene.add(speedHUD);
                 car.add(speedHUD);
 
                 speedHUD.position.set(5, 35, 110)
+                }
             });
 
             controls.update();
