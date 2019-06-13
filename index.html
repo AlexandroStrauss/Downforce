@@ -25,7 +25,7 @@
     <script src="js/trackOneParams.js"></script>
     <script src="js/crossedLine.js"></script>
     <script src="js/trackOneGeometry.js"></script>
-    <script type="text/javascript" src="/js/physi.js"></script>
+    <!-- <script type="text/javascript" src="/js/physi.js"></script> -->
 
     <div class="camera-selector">
         <input type="radio" name="cameraType" value="third-person">Chase Cam</div>
@@ -36,10 +36,10 @@
 
     <script>
 
-        'use strict';
+        // 'use strict';
 
-        Physijs.scripts.worker = '/js/physijs_worker.js';
-        Physijs.scripts.ammo = '/js/ammo.js';
+        // Physijs.scripts.worker = '/js/physijs_worker.js';
+        // Physijs.scripts.ammo = '/js/ammo.js';
 
         var rightPressed = false;
         var leftPressed = false;
@@ -50,15 +50,18 @@
         document.addEventListener("keyup", keyUpHandler, false);
 
         var velocity = 0;
+        var downforce = 0;
+        var speedReadout = Math.floor(velocity) + " MPH"
+
         var velX = 0;
         var velZ = 0;
         var angle = 0;
         var lapCount = 0;
-        var cameraType = "birds-eye"
+        var cameraType = "third-person"
         console.log(lapCount);
 
 
-        var scene = new Physijs.Scene();
+        var scene = new THREE.Scene();
         scene.background = new THREE.Color(0xff0000);
 
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -69,15 +72,11 @@
 
         var loader = new THREE.GLTFLoader();
 
-        var car;
+        var car, speedHUD, speedHUDGeometry, speedHUDMaterial, downforceHUD, downforceHUDGeometry, downforceHUDMaterial, downforceReadout;
 
         var controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableKeys = false;
 
-        //controls.update() must be called after any manual changes to the camera's transform
-        
-
-        // camera.lookAt(scene.position)
         controls.update();
 
         loader.load('2018_nascar_camaro/scene.gltf', function (gltf) {
@@ -88,7 +87,6 @@
             console.error(error);
         })
 
-
         var boundingBox;
 
         var bound_geometry = new THREE.BoxGeometry(50, 50, 150),
@@ -97,7 +95,7 @@
                 console.log(linearVelocity);
             }
 
-        boundingBox = new Physijs.BoxMesh(
+        boundingBox = new THREE.Mesh(
             bound_geometry,
             new THREE.MeshBasicMaterial({color: 0xff0add})
         )
@@ -116,7 +114,6 @@
                 camera.position.set(-840, 3500, 0)
         }
 
-
         var collidableObjects = trackOneGeometry();
 
         var geometry = new THREE.PlaneGeometry(600, 300, 32);
@@ -124,18 +121,45 @@
         var plane = new THREE.Mesh(geometry, material);
         // scene.add(plane);
         plane.transparent = true;
-        var speedHUD;
+
+        downforceReadout = Math.floor(downforce) + " lbs"
+
+
+
+
+        var loader = new THREE.FontLoader();
+            loader.load('fonts/optimer_regular.typeface.json', function (font) {
+
+            downforceHUDGeometry = new THREE.TextGeometry(downforceReadout, {
+                font: font,
+                size: 4,
+                height: 1,
+                curveSegments: 6,
+                bevelEnabled: false,
+            })
+            downforceHUDMaterial = new THREE.MeshBasicMaterial({ color: 0xcd0000 })
+            downforceHUD = new THREE.Mesh(downforceHUDGeometry, downforceHUDMaterial);
+            downforceHUD.position.set(5, 30, 110);
+
+            scene.add(downforceHUD);
+            car.add(downforceHUD);
+            
+            downforceHUD.geometry.needsUpdate = true;
+
+        })
+
+        var updatePhysics = function () {
+            
+        }
+
 
         var animate = function () {
-            requestAnimationFrame(animate);
-            // scene.remove(speedHUD);
+            scene.remove(speedHUD);
 
-            // car.rotation.x += 0.02;
-            // car.rotation.y += 0.02;
-            // car.rotation.z += 0.02;
+            requestAnimationFrame(animate);
 
             // approximate downforce for a NASCAR car, assuming 2000lbs at 180mph
-            var downforce = .312 * (Math.pow((velocity * .44704), 2))
+            downforce = .312 * (Math.pow((velocity * .44704), 2))
 
             if (upPressed && velocity >= 0) {
                 var acceleration = (22.7 - (0.0864 * velocity) - (0.0000892 * Math.pow(velocity, 2)))/120
@@ -153,7 +177,7 @@
             }
 
             // var angleChange = Math.log(1/((Math.abs(velocity) ) / 600))/150;
-            var angleChange = velocity/3000;
+            var angleChange = ((1/Math.log(Math.abs(velocity)))/8);
 
             if (leftPressed) {
                 angle += angleChange;
@@ -191,43 +215,41 @@
                 velocity *= 0.9;
             }
 
-
             boundingBox.position.z -= (velZ / 4)
             boundingBox.position.x -= (velX / 4)
 
             car.position.x = boundingBox.position.x
             car.position.z = boundingBox.position.z
 
-
-            // camera.lookAt(car.position)
-
             // if (crossedLine(boundingBox, velocity, plane)) {
             //     lapCount += 1
             //     console.log(lapCount)
             // }
 
-            var speedReadout = Math.floor(velocity) + " MPH"
-            var downforceReadout = Math.floor(downforce) + " lbs"
+            downforceReadout = Math.floor(downforce) + " lbs"
+            speedReadout = Math.floor(velocity) + " MPH"
 
-            var loader = new THREE.FontLoader();
-                
-            loader.load('fonts/Gilroy Light_Regular.json', function (font) {
+            scene.remove(speedHUD);
+            loader.load('fonts/optimer_regular.typeface.json', function (font) {
 
-                var geometry = new THREE.TextGeometry(speedReadout, {
+                speedHUDGeometry = new THREE.TextGeometry(speedReadout, {
                     font: font,
-                    size: 80,
-                    height: 50,
+                    size: 4,
+                    height: 1,
                     curveSegments: 6,
                     bevelEnabled: false,
+                    // bevelThickness: 0,
+                    // bevelSize: 0,
+                    // bevelOffset: 0
                 });
-                
+
+                speedHUDMaterial = new THREE.MeshBasicMaterial({ color: 0x00fff0 });
+                speedHUD = new THREE.Mesh(speedHUDGeometry, speedHUDMaterial);
+                scene.add(speedHUD);
+                car.add(speedHUD);
+
+                speedHUD.position.set(5, 35, 110)
             });
-            var material = new THREE.MeshBasicMaterial({color: 0x00fff0});
-            var speedHUD = new THREE.Mesh(geometry, material);
-            scene.add(speedHUD);
-
-
-
 
             controls.update();
             if (cameraType === 'first-person') {
@@ -238,20 +260,32 @@
                 camera.rotation.z = 0
                 camera.rotation.y = car.rotation.y
 
-            } 
+            }
             else if (cameraType === 'third-person') {
             //     camera.position.x -= (velX * Math.abs(Math.sin(car.rotation.y)))
             //     camera.position.z -= (velZ * Math.abs(Math.cos(car.rotation.y)))
+
+                speedHUD.rotation.x = 0
+                speedHUD.rotation.z = 0
+                speedHUD.rotation.y = 0
+
+                // downforceHUD.rotation.x = 0
+                // downforceHUD.rotation.z = 0
+                // downforceHUD.rotation.y = 0
 
                 camera.rotation.x = 0
                 camera.rotation.z = 0
                 camera.rotation.y = 0
                 // camera.rotation.y = car.rotation.y/(Math.PI)
             }
-            
-            renderer.render(scene, camera);
-        };
 
+            renderer.render(scene, camera);
+            // speedHUD.geometry.dispose();
+            // speedHUD.material.map.dispose();
+            // downforceHUD.geometry.dispose();
+            // downforceHUD.material.map.dispose();
+
+        };
         animate();
 
     </script>
