@@ -9,14 +9,22 @@ class Race {
         this.car = new Car();
         this.track = new trackOneGeometry();
         this.scene = null;
-        this.cameraChoice = cameraChoice;
+        this.cameraChoice = 'third-person';
         this.camera = null;
         this.controls = null;
         this.collidableObjects = [];
         this.renderer = null;
 
 
+
+        this.rightPressed = false;
+        this.leftPressed = false;
+        this.upPressed = false;
+        this.downPressed = false;
+
         this.animate = this.animate.bind(this);
+        this.keyDownHandler = this.keyDownHandler.bind(this);
+        this.keyUpHandler = this.keyUpHandler.bind(this);
     }
 
     start() {
@@ -37,64 +45,90 @@ class Race {
 
         // debugger
         this.car.start(this.scene, this.camera, this.cameraChoice);
+        
+        document.addEventListener("keydown", this.keyDownHandler, false);
+        document.addEventListener("keyup", this.keyUpHandler, false);
 
         this.animate();
     }
 
+    keyDownHandler(e) {
+        if (e.key == "Right" || e.key == "ArrowRight") {
+            this.rightPressed = true;
+        }
+        else if (e.key == "Left" || e.key == "ArrowLeft") {
+            this.leftPressed = true;
+        }
+        else if (e.key == "Up" || e.key == "ArrowUp") {
+            this.upPressed = true;
+        }
+        else if (e.key == "Down" || e.key == "ArrowDown") {
+            this.downPressed = true;
+        }
+    }
+
+    keyUpHandler(e) {
+        if (e.key == "Right" || e.key == "ArrowRight") {
+            this.rightPressed = false;
+        }
+        else if (e.key == "Left" || e.key == "ArrowLeft") {
+            this.leftPressed = false;
+        }
+        else if (e.key == "Up" || e.key == "ArrowUp") {
+            this.upPressed = false;
+        }
+        else if (e.key == "Down" || e.key == "ArrowDown") {
+            this.downPressed = false;
+        }
+    }
 
     updatePhysics() {
-        var rightPressed = false;
-        var leftPressed = false;
-        var upPressed = false;
-        var downPressed = false;
-        var angle = 0;
-
 
         var velocity = this.car.velocity;
         
         // approximate downforce for a NASCAR car, assuming 2000lbs at 180mph
         var downforce = .312 * (Math.pow((velocity * .44704), 2))
 
-        if (upPressed && velocity >= 0) {
+        if (this.upPressed && velocity >= 0) {
             var acceleration = (22.7 - (0.0864 * velocity) - (0.0000892 * Math.pow(velocity, 2))) / 120
             velocity += acceleration
-        } else if (upPressed && velocity < 0) {
+        } else if (this.upPressed && velocity < 0) {
             var deceleration = (-33.6 - 3.12 * Math.log(Math.abs(velocity))) / 120
             velocity -= deceleration
         }
 
-        if (downPressed && velocity > 0) {
+        if (this.downPressed && velocity > 0) {
             var deceleration = (-33.6 - 3.12 * Math.log(velocity)) / 60
             velocity += deceleration
-        } else if (downPressed && velocity <= 0) {
+        } else if (this.downPressed && velocity <= 0) {
             velocity = -5;
         }
 
         var angleChange = ((1 / Math.log(Math.abs(velocity))) / 8);
 
-        if (leftPressed) {
-            angle += angleChange;
+        if (this.leftPressed) {
+            this.car.angle += angleChange;
             this.car.rotation.y += angleChange;
             this.car.boundingBox.rotation.y += angleChange;
         }
 
-        if (rightPressed) {
-            angle -= angleChange;
+        if (this.rightPressed) {
+            this.car.angle -= angleChange;
             this.car.rotation.y -= angleChange;
             this.car.boundingBox.rotation.y -= angleChange;
         }
 
-        if (!upPressed && !downPressed) {
+        if (!this.upPressed && !this.downPressed) {
             velocity *= 0.999;
         }
 
         // these are swapped because of the starting direction of the car.
         // X should be calculated from cosine, Z from sine
-        var velX = velocity * Math.sin(angle);
-        var velZ = velocity * Math.cos(angle);
+        var velX = velocity * Math.sin(this.car.angle);
+        var velZ = velocity * Math.cos(this.car.angle);
 
         if (collisions(this.car.boundingBox, this.track.collidableObjects)) {
-            if (this.car.position.z > 0) {
+            if (this.car.model.position.z > 0) {
                 velX = -Math.abs(velX);
                 velZ = -Math.abs(velZ);
             } else {
@@ -128,7 +162,6 @@ class Race {
         }
 
         this.controls.update();
-
 
         this.renderer.render(this.scene, this.camera);
     };

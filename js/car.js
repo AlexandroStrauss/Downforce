@@ -14,19 +14,17 @@ class Car {
     }
 
     start (scene, camera, cameraType) {
-        var model;
+        let model;
         var loader = new GLTFLoader();
-        loader.load('../2018_nascar_camaro/scene.gltf', function (gltf) {
-            // debugger
-            model = gltf.scene;
+        const modelLoad = (function (gltf) {
+            this.model = gltf.scene;
             scene.add(gltf.scene);
-            // debugger
-        }, undefined, function (error) {
+        }).bind(this);
+
+        loader.load('../2018_nascar_camaro/scene.gltf', modelLoad,
+         undefined, function (error) {
             console.error(error);
         })
-        // debugger
-
-        this.model = model;
 
         var bound_geometry = new THREE.BoxGeometry(50, 50, 150);
         this.boundingBox = new THREE.Mesh(
@@ -108,16 +106,14 @@ class Car {
     }
 
     removeHUD(scene) {
-        // if (this.speedHUD) {
-        //     scene.remove(speedHUD)
-        // }
+        if (this.speedHUD) {
+            scene.remove(speedHUD)
+        }
 
-        // if (this.downforceHUD) {
-        //     scene.remove(downforceHUD)
-        // }
+        if (this.downforceHUD) {
+            scene.remove(downforceHUD)
+        }
     }
-
-
 
     updatePosition(dX, dZ) {
         this.boundingBox.position.z -= (dZ / 4)
