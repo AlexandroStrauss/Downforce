@@ -16,23 +16,23 @@
 </head>
 
 <body>
-    <script src="js/three.js"></script>
+    <!-- <script src="js/three.js"></script>
     <script src="js/controls/OrbitControls.js"></script>
-    <script src="GLTFLoader.js"></script>
+    <script src="js/GLTFLoader.js"></script>
     <script src="js/keyUpHandler.js"></script>
     <script src="js/keyDownHandler.js"></script>
     <script src="js/collisions.js"></script>
     <script src="js/trackOneParams.js"></script>
     <script src="js/crossedLine.js"></script>
-    <script src="js/trackOneGeometry.js"></script>
-    <!-- <script type="text/javascript" src="/js/physi.js"></script> -->
+    <script src="js/trackOneGeometry.js"></script> -->
+    <script src="js/bundle.js"></script>
 
-    <div class="camera-selector">
+    <!-- <div class="camera-selector">
         <input type="radio" name="cameraType" value="third-person">Chase Cam</div>
         <input type="radio" name="cameraType" value="first-person">Roof Cam</div>
         <input type="radio" name="cameraType" value="birds-eye">Overhead Cam</div>
         <input type="submit" value="Change Camera" />
-    </div>
+    </div> -->
 
     <script>
 
@@ -41,255 +41,255 @@
         // Physijs.scripts.worker = '/js/physijs_worker.js';
         // Physijs.scripts.ammo = '/js/ammo.js';
 
-        var rightPressed = false;
-        var leftPressed = false;
-        var upPressed = false;
-        var downPressed = false;
+        // var rightPressed = false;
+        // var leftPressed = false;
+        // var upPressed = false;
+        // var downPressed = false;
 
-        document.addEventListener("keydown", keyDownHandler, false);
-        document.addEventListener("keyup", keyUpHandler, false);
+        // document.addEventListener("keydown", keyDownHandler, false);
+        // document.addEventListener("keyup", keyUpHandler, false);
 
-        var velocity = 0;
-        var downforce = 0;
-        var speedReadout = Math.floor(velocity) + " MPH"
+        // var velocity = 0;
+        // var downforce = 0;
+        // var speedReadout = Math.floor(velocity) + " MPH"
 
-        var velX = 0;
-        var velZ = 0;
-        var angle = 0;
-        var lapCount = 0;
-        var cameraType = "third-person"
-        console.log(lapCount);
-
-
-        var scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xff0000);
-
-        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-
-        var renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-        var loader = new THREE.GLTFLoader();
-
-        var car, speedHUD, speedHUDGeometry, speedHUDMaterial, downforceHUD, downforceHUDGeometry, downforceHUDMaterial, downforceReadout;
-
-        var controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableKeys = false;
-
-        controls.update();
-
-        loader.load('2018_nascar_camaro/scene.gltf', function (gltf) {
-            car = gltf.scene;
-            // car.add(camera);
-            scene.add(gltf.scene);
-        }, undefined, function (error) {
-            console.error(error);
-        })
-
-        var boundingBox;
-
-        var bound_geometry = new THREE.BoxGeometry(50, 50, 150),
-            handleCollision = function (collided_with, linearVelocity, angularVelocity, contact_normal) {
-                console.log('bonk');
-                console.log(linearVelocity);
-            }
-
-        boundingBox = new THREE.Mesh(
-            bound_geometry,
-            new THREE.MeshBasicMaterial({color: 0xff0add})
-        )
-        boundingBox.addEventListener('collision', handleCollision)
-        scene.add(boundingBox);
-        boundingBox.material.transparent = true;
-        boundingBox.material.opacity = 0;
-
-        if (cameraType === "first-person") {
-                camera.position.set(0, 75, 200)
-            } else if (cameraType === "third-person") {
-                camera.position.y = 50
-                camera.position.z = 150
-                boundingBox.add(camera);
-            } else {
-                camera.position.set(-840, 3500, 0)
-        }
-
-        var collidableObjects = trackOneGeometry();
-
-        var geometry = new THREE.PlaneGeometry(600, 300, 32);
-        var material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
-        var plane = new THREE.Mesh(geometry, material);
-        // scene.add(plane);
-        plane.transparent = true;
-
-        downforceReadout = Math.floor(downforce) + " lbs"
+        // var velX = 0;
+        // var velZ = 0;
+        // var angle = 0;
+        // var lapCount = 0;
+        // var cameraType = "third-person"
+        // console.log(lapCount);
 
 
-        var loader = new THREE.FontLoader();
-        //     loader.load('fonts/optimer_regular.typeface.json', function (font) {
+        // var scene = new THREE.Scene();
+        // scene.background = new THREE.Color(0xff0000);
 
-        //     downforceHUDGeometry = new THREE.TextGeometry(downforceReadout, {
-        //         font: font,
-        //         size: 4,
-        //         height: 1,
-        //         curveSegments: 6,
-        //         bevelEnabled: false,
-        //     })
-        //     downforceHUDMaterial = new THREE.MeshBasicMaterial({ color: 0xcd0000 })
-        //     downforceHUD = new THREE.Mesh(downforceHUDGeometry, downforceHUDMaterial);
+        // var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 
-        //     scene.add(downforceHUD);
-        //     car.add(downforceHUD);
-        //                 downforceHUD.position.set(5, 30, 110);
+        // var renderer = new THREE.WebGLRenderer();
+        // renderer.setSize(window.innerWidth, window.innerHeight);
+        // document.body.appendChild(renderer.domElement);
 
-            
-        //     downforceHUD.geometry.needsUpdate = true;
+        // var loader = new THREE.GLTFLoader();
 
+        // var car, speedHUD, speedHUDGeometry, speedHUDMaterial, downforceHUD, downforceHUDGeometry, downforceHUDMaterial, downforceReadout;
+
+        // var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        // controls.enableKeys = false;
+
+        // controls.update();
+
+        // loader.load('2018_nascar_camaro/scene.gltf', function (gltf) {
+        //     car = gltf.scene;
+        //     // car.add(camera);
+        //     scene.add(gltf.scene);
+        // }, undefined, function (error) {
+        //     console.error(error);
         // })
 
-        var updatePhysics = function () {
+        // var boundingBox;
+
+        // var bound_geometry = new THREE.BoxGeometry(50, 50, 150),
+        //     handleCollision = function (collided_with, linearVelocity, angularVelocity, contact_normal) {
+        //         console.log('bonk');
+        //         console.log(linearVelocity);
+        //     }
+
+        // boundingBox = new THREE.Mesh(
+        //     bound_geometry,
+        //     new THREE.MeshBasicMaterial({color: 0xff0add})
+        // )
+        // boundingBox.addEventListener('collision', handleCollision)
+        // scene.add(boundingBox);
+        // boundingBox.material.transparent = true;
+        // boundingBox.material.opacity = 0;
+
+        // if (cameraType === "first-person") {
+        //         camera.position.set(0, 75, 200)
+        //     } else if (cameraType === "third-person") {
+        //         camera.position.y = 50
+        //         camera.position.z = 150
+        //         boundingBox.add(camera);
+        //     } else {
+        //         camera.position.set(-840, 3500, 0)
+        // }
+
+        // var collidableObjects = trackOneGeometry();
+
+        // var geometry = new THREE.PlaneGeometry(600, 300, 32);
+        // var material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+        // var plane = new THREE.Mesh(geometry, material);
+        // // scene.add(plane);
+        // plane.transparent = true;
+
+        // downforceReadout = Math.floor(downforce) + " lbs"
+
+
+        // var loader = new THREE.FontLoader();
+        // //     loader.load('fonts/optimer_regular.typeface.json', function (font) {
+
+        // //     downforceHUDGeometry = new THREE.TextGeometry(downforceReadout, {
+        // //         font: font,
+        // //         size: 4,
+        // //         height: 1,
+        // //         curveSegments: 6,
+        // //         bevelEnabled: false,
+        // //     })
+        // //     downforceHUDMaterial = new THREE.MeshBasicMaterial({ color: 0xcd0000 })
+        // //     downforceHUD = new THREE.Mesh(downforceHUDGeometry, downforceHUDMaterial);
+
+        // //     scene.add(downforceHUD);
+        // //     car.add(downforceHUD);
+        // //                 downforceHUD.position.set(5, 30, 110);
+
             
-        }
+        // //     downforceHUD.geometry.needsUpdate = true;
+
+        // // })
+
+        // var updatePhysics = function () {
+            
+        // }
 
 
-        var animate = function () {
-            scene.remove(speedHUD);
+        // var animate = function () {
+        //     scene.remove(speedHUD);
 
-            requestAnimationFrame(animate);
+        //     requestAnimationFrame(animate);
 
-            // approximate downforce for a NASCAR car, assuming 2000lbs at 180mph
-            downforce = .312 * (Math.pow((velocity * .44704), 2))
+        //     // approximate downforce for a NASCAR car, assuming 2000lbs at 180mph
+        //     downforce = .312 * (Math.pow((velocity * .44704), 2))
 
-            if (upPressed && velocity >= 0) {
-                var acceleration = (22.7 - (0.0864 * velocity) - (0.0000892 * Math.pow(velocity, 2)))/120
-                velocity += acceleration
-            } else if (upPressed && velocity < 0) {
-                var deceleration = (-33.6 - 3.12 * Math.log(Math.abs(velocity))) / 120
-                velocity -= deceleration
-            }
+        //     if (upPressed && velocity >= 0) {
+        //         var acceleration = (22.7 - (0.0864 * velocity) - (0.0000892 * Math.pow(velocity, 2)))/120
+        //         velocity += acceleration
+        //     } else if (upPressed && velocity < 0) {
+        //         var deceleration = (-33.6 - 3.12 * Math.log(Math.abs(velocity))) / 120
+        //         velocity -= deceleration
+        //     }
 
-            if (downPressed && velocity > 0) {
-                var deceleration = (-33.6 - 3.12 * Math.log(velocity))/60
-                velocity += deceleration
-            } else if (downPressed && velocity <= 0) {
-                velocity = -5;
-            }
+        //     if (downPressed && velocity > 0) {
+        //         var deceleration = (-33.6 - 3.12 * Math.log(velocity))/60
+        //         velocity += deceleration
+        //     } else if (downPressed && velocity <= 0) {
+        //         velocity = -5;
+        //     }
 
-            // var angleChange = Math.log(1/((Math.abs(velocity) ) / 600))/150;
-            var angleChange = ((1/Math.log(Math.abs(velocity)))/8);
+        //     // var angleChange = Math.log(1/((Math.abs(velocity) ) / 600))/150;
+        //     var angleChange = ((1/Math.log(Math.abs(velocity)))/8);
 
-            if (leftPressed) {
-                angle += angleChange;
-                car.rotation.y += angleChange;
-                boundingBox.rotation.y += angleChange;
-            }
+        //     if (leftPressed) {
+        //         angle += angleChange;
+        //         car.rotation.y += angleChange;
+        //         boundingBox.rotation.y += angleChange;
+        //     }
 
-            if (rightPressed) {
-                angle -= angleChange;
-                car.rotation.y -= angleChange;
-                boundingBox.rotation.y -= angleChange;
-            }
+        //     if (rightPressed) {
+        //         angle -= angleChange;
+        //         car.rotation.y -= angleChange;
+        //         boundingBox.rotation.y -= angleChange;
+        //     }
 
-            if (!upPressed && !downPressed) {
-            velocity *= 0.999;
-            }
-            //these are swapped because of the starting direction of the car.
-            //X should be calculated from cosine, Z from sine
-            velX = velocity * Math.sin(angle);
-            velZ = velocity * Math.cos(angle);
+        //     if (!upPressed && !downPressed) {
+        //     velocity *= 0.999;
+        //     }
+        //     //these are swapped because of the starting direction of the car.
+        //     //X should be calculated from cosine, Z from sine
+        //     velX = velocity * Math.sin(angle);
+        //     velZ = velocity * Math.cos(angle);
 
-            // if (trackOneParams(boundingBox.position.x, boundingBox.position.z)) {
-            //     velX = -velX;
-            //     velocity *= 0.9;
-            // }
+        //     // if (trackOneParams(boundingBox.position.x, boundingBox.position.z)) {
+        //     //     velX = -velX;
+        //     //     velocity *= 0.9;
+        //     // }
 
-            if (collisions(boundingBox, collidableObjects)) {
-                if (car.position.z > 0) {
-                velX = -Math.abs(velX);
-                velZ = -Math.abs(velZ);
-                } else {
-                    velX = -velX;
-                    velZ = -velZ;
-                }
-                velocity *= 0.9;
-            }
+        //     if (collisions(boundingBox, collidableObjects)) {
+        //         if (car.position.z > 0) {
+        //         velX = -Math.abs(velX);
+        //         velZ = -Math.abs(velZ);
+        //         } else {
+        //             velX = -velX;
+        //             velZ = -velZ;
+        //         }
+        //         velocity *= 0.9;
+        //     }
 
-            boundingBox.position.z -= (velZ / 4)
-            boundingBox.position.x -= (velX / 4)
+        //     boundingBox.position.z -= (velZ / 4)
+        //     boundingBox.position.x -= (velX / 4)
 
-            car.position.x = boundingBox.position.x
-            car.position.z = boundingBox.position.z
+        //     car.position.x = boundingBox.position.x
+        //     car.position.z = boundingBox.position.z
 
-            // if (crossedLine(boundingBox, velocity, plane)) {
-            //     lapCount += 1
-            //     console.log(lapCount)
-            // }
+        //     // if (crossedLine(boundingBox, velocity, plane)) {
+        //     //     lapCount += 1
+        //     //     console.log(lapCount)
+        //     // }
 
-            downforceReadout = Math.floor(downforce) + " lbs"
-            speedReadout = Math.floor(velocity) + " MPH"
-            if(speedHUD) {    
-                debugger
-            scene.remove(speedHUD);
-            }
-            loader.load('fonts/optimer_regular.typeface.json', function (font) {
+        //     downforceReadout = Math.floor(downforce) + " lbs"
+        //     speedReadout = Math.floor(velocity) + " MPH"
+        //     if(speedHUD) {    
+        //         debugger
+        //     scene.remove(speedHUD);
+        //     }
+        //     loader.load('fonts/optimer_regular.typeface.json', function (font) {
 
-                speedHUDGeometry = new THREE.TextGeometry(speedReadout, {
-                    font: font,
-                    size: 4,
-                    height: 1,
-                    curveSegments: 6,
-                    bevelEnabled: false,
-                    // bevelThickness: 0,
-                    // bevelSize: 0,
-                    // bevelOffset: 0
-                });
+        //         speedHUDGeometry = new THREE.TextGeometry(speedReadout, {
+        //             font: font,
+        //             size: 4,
+        //             height: 1,
+        //             curveSegments: 6,
+        //             bevelEnabled: false,
+        //             // bevelThickness: 0,
+        //             // bevelSize: 0,
+        //             // bevelOffset: 0
+        //         });
 
-                if (velocity < 10) {
-                speedHUDMaterial = new THREE.MeshBasicMaterial({ color: 0x00fff0 });
-                speedHUD = new THREE.Mesh(speedHUDGeometry, speedHUDMaterial);
-                scene.add(speedHUD);
-                car.add(speedHUD);
+        //         if (velocity < 10) {
+        //         speedHUDMaterial = new THREE.MeshBasicMaterial({ color: 0x00fff0 });
+        //         speedHUD = new THREE.Mesh(speedHUDGeometry, speedHUDMaterial);
+        //         scene.add(speedHUD);
+        //         car.add(speedHUD);
 
-                speedHUD.position.set(5, 35, 110)
-                }
-            });
+        //         speedHUD.position.set(5, 35, 110)
+        //         }
+        //     });
 
-            controls.update();
-            if (cameraType === 'first-person') {
-                camera.position.x = car.position.x
-                camera.position.z = car.position.z
+        //     controls.update();
+        //     if (cameraType === 'first-person') {
+        //         camera.position.x = car.position.x
+        //         camera.position.z = car.position.z
 
-                camera.rotation.x = 0
-                camera.rotation.z = 0
-                camera.rotation.y = car.rotation.y
+        //         camera.rotation.x = 0
+        //         camera.rotation.z = 0
+        //         camera.rotation.y = car.rotation.y
 
-            }
-            else if (cameraType === 'third-person') {
-            //     camera.position.x -= (velX * Math.abs(Math.sin(car.rotation.y)))
-            //     camera.position.z -= (velZ * Math.abs(Math.cos(car.rotation.y)))
+        //     }
+        //     else if (cameraType === 'third-person') {
+        //     //     camera.position.x -= (velX * Math.abs(Math.sin(car.rotation.y)))
+        //     //     camera.position.z -= (velZ * Math.abs(Math.cos(car.rotation.y)))
 
-                speedHUD.rotation.x = 0
-                speedHUD.rotation.z = 0
-                speedHUD.rotation.y = 0
+        //         speedHUD.rotation.x = 0
+        //         speedHUD.rotation.z = 0
+        //         speedHUD.rotation.y = 0
 
-                // downforceHUD.rotation.x = 0
-                // downforceHUD.rotation.z = 0
-                // downforceHUD.rotation.y = 0
+        //         // downforceHUD.rotation.x = 0
+        //         // downforceHUD.rotation.z = 0
+        //         // downforceHUD.rotation.y = 0
 
-                camera.rotation.x = 0
-                camera.rotation.z = 0
-                camera.rotation.y = 0
-                // camera.rotation.y = car.rotation.y/(Math.PI)
-            }
+        //         camera.rotation.x = 0
+        //         camera.rotation.z = 0
+        //         camera.rotation.y = 0
+        //         // camera.rotation.y = car.rotation.y/(Math.PI)
+        //     }
 
-            renderer.render(scene, camera);
-            // speedHUD.geometry.dispose();
-            // speedHUD.material.map.dispose();
-            // downforceHUD.geometry.dispose();
-            // downforceHUD.material.map.dispose();
+        //     renderer.render(scene, camera);
+        //     // speedHUD.geometry.dispose();
+        //     // speedHUD.material.map.dispose();
+        //     // downforceHUD.geometry.dispose();
+        //     // downforceHUD.material.map.dispose();
 
-        };
-        animate();
+        // };
+        // animate();
 
     </script>
 
