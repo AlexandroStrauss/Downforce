@@ -53,7 +53,12 @@ class Car {
             camera.rotation.y = 0
         } else {
             camera.position.set(-840, 3500, 0)
-            this.boundingBox.add(camera);
+            // this.boundingBox.add(camera);
+
+            // camera.rotation.x = 0
+            // camera.rotation.z = 0
+            // camera.rotation.y = 0
+
         }
         this.fontLoader = new THREE.FontLoader();
         this.font = this.fontLoader.load('fonts/optimer_regular.typeface.json')

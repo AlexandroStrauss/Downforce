@@ -9,7 +9,7 @@ class Race {
         this.car = new Car();
         this.track = new trackOneGeometry();
         this.scene = null;
-        this.cameraChoice = 'third-person';
+        this.cameraChoice = null;
         this.camera = null;
         this.controls = null;
         this.collidableObjects = [];
@@ -108,13 +108,13 @@ class Race {
 
         if (this.leftPressed) {
             this.car.angle += angleChange;
-            this.car.rotation.y += angleChange;
+            this.car.model.rotation.y += angleChange;
             this.car.boundingBox.rotation.y += angleChange;
         }
 
         if (this.rightPressed) {
             this.car.angle -= angleChange;
-            this.car.rotation.y -= angleChange;
+            this.car.model.rotation.y -= angleChange;
             this.car.boundingBox.rotation.y -= angleChange;
         }
 
@@ -144,12 +144,42 @@ class Race {
         this.car.updatePosition(velX, velZ);
     }
 
+    updateCamera() {
+        // if (this.cameraChoice === 'first-person') {
+        //     this.camera.position.x = car.position.x
+        //     this.camera.position.z = car.position.z
+
+        //     this.camera.rotation.x = 0
+        //     this.camera.rotation.z = 0
+        //     this.camera.rotation.y = this.car.model.rotation.y
+
+        // } else if (this.cameraChoice === 'third-person') {
+        //     this.camera.position.x -= (velX * Math.abs(Math.sin(this.car.model.rotation.y)))
+        //     this.camera.position.z -= (velZ * Math.abs(Math.cos(this.car.model.rotation.y)))
+
+            // speedHUD.rotation.x = 0
+            // speedHUD.rotation.z = 0
+            // speedHUD.rotation.y = 0
+
+            // downforceHUD.rotation.x = 0
+            // downforceHUD.rotation.z = 0
+            // downforceHUD.rotation.y = 0
+
+            // this.camera.rotation.x = 0
+            // this.camera.rotation.z = 0
+            // this.camera.rotation.y = 0
+            // debugger
+        // }
+    }
+
     animate() {
         requestAnimationFrame(this.animate);
 
         this.car.removeHUD();
 
         this.updatePhysics();
+
+        this.updateCamera();
 
         switch (this.cameraChoice) {
             case 'third-person':
@@ -168,31 +198,6 @@ class Race {
 }
 
 
-// if (cameraType === 'first-person') {
-//     camera.position.x = car.position.x
-//     camera.position.z = car.position.z
-
-//     // camera.rotation.x = 0
-//     // camera.rotation.z = 0
-//     // camera.rotation.y = car.rotation.y
-
-// }
-// else if (cameraType === 'third-person') {
-//     camera.position.x -= (velX * Math.abs(Math.sin(car.rotation.y)))
-//     camera.position.z -= (velZ * Math.abs(Math.cos(car.rotation.y)))
-
-// speedHUD.rotation.x = 0
-// speedHUD.rotation.z = 0
-// speedHUD.rotation.y = 0
-
-// downforceHUD.rotation.x = 0
-// downforceHUD.rotation.z = 0
-// downforceHUD.rotation.y = 0
-
-// camera.rotation.x = 0
-// camera.rotation.z = 0
-// camera.rotation.y = 0
-// }
 
 
 // if (crossedLine(boundingBox, velocity, plane)) {
