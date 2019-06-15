@@ -9,7 +9,7 @@ class Race {
         this.car = new Car();
         this.track = new trackOneGeometry();
         this.scene = null;
-        this.cameraChoice = 'third-person';
+        this.cameraChoice = null;
         this.camera = null;
         this.controls = null;
         this.collidableObjects = [];
@@ -46,7 +46,7 @@ class Race {
 
         // debugger
         this.car.start(this.scene, this.camera, this.cameraChoice);
-        
+
         document.addEventListener("keydown", this.keyDownHandler, false);
         document.addEventListener("keyup", this.keyUpHandler, false);
 
@@ -86,7 +86,7 @@ class Race {
     updatePhysics() {
 
         var velocity = this.car.velocity;
-        
+
         // approximate downforce for a NASCAR car, assuming 2000lbs at 180mph
         var downforce = .312 * (Math.pow((velocity * .44704), 2))
 
@@ -147,7 +147,7 @@ class Race {
 
     updateCamera() {
         switch(this.cameraChoice) {
-            case 'first-person': 
+            case 'first-person':
                 this.camera.rotation.x = 0
                 this.camera.rotation.z = 0
                 this.camera.rotation.y = 0
@@ -158,10 +158,11 @@ class Race {
                 this.camera.rotation.y = 0
             break;
 
-            default: 
+            default:
+                debugger
 
-                this.camera.rotation.x = 0
-                this.camera.rotation.z = -1
+                this.camera.rotation.x = -1.57
+                this.camera.rotation.z = 0
                 this.camera.rotation.y = 0
 
         }

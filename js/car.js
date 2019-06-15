@@ -36,7 +36,8 @@ class Car {
         this.boundingBox.material.opacity = 0;
 
         if (cameraType === "first-person") {
-            camera.position.y = 75
+            camera.position.y = 40
+            camera.position.x = -10
             this.boundingBox.add(camera);
 
             camera.rotation.x = 0
@@ -49,7 +50,8 @@ class Car {
             camera.position.y = 50
             camera.position.z = 150
         } else {
-            camera.position.set(-840, 3500, 0)
+            this.boundingBox.add(camera);
+            camera.position.set(0, 1500, 0)
             // this.boundingBox.add(camera);
 
             // camera.rotation.x = 0
