@@ -9,7 +9,7 @@ class Race {
         this.car = new Car();
         this.track = new trackOneGeometry();
         this.scene = null;
-        this.cameraChoice = null;
+        this.cameraChoice = 'third-person';
         this.camera = null;
         this.controls = null;
         this.collidableObjects = [];
@@ -25,6 +25,7 @@ class Race {
         this.animate = this.animate.bind(this);
         this.keyDownHandler = this.keyDownHandler.bind(this);
         this.keyUpHandler = this.keyUpHandler.bind(this);
+        this.updateCamera = this.updateCamera.bind(this);
     }
 
     start() {
@@ -145,6 +146,25 @@ class Race {
     }
 
     updateCamera() {
+        switch(this.cameraChoice) {
+            case 'first-person': 
+                this.camera.rotation.x = 0
+                this.camera.rotation.z = 0
+                this.camera.rotation.y = 0
+                break;
+            case 'third-person':
+                this.camera.rotation.x = 0
+                this.camera.rotation.z = 0
+                this.camera.rotation.y = 0
+            break;
+
+            default: 
+
+                this.camera.rotation.x = 0
+                this.camera.rotation.z = -1
+                this.camera.rotation.y = 0
+
+        }
         // if (this.cameraChoice === 'first-person') {
         //     this.camera.position.x = car.position.x
         //     this.camera.position.z = car.position.z
@@ -165,9 +185,6 @@ class Race {
             // downforceHUD.rotation.z = 0
             // downforceHUD.rotation.y = 0
 
-            // this.camera.rotation.x = 0
-            // this.camera.rotation.z = 0
-            // this.camera.rotation.y = 0
             // debugger
         // }
     }
@@ -178,8 +195,6 @@ class Race {
         this.car.removeHUD();
 
         this.updatePhysics();
-
-        this.updateCamera();
 
         switch (this.cameraChoice) {
             case 'third-person':
@@ -192,6 +207,8 @@ class Race {
         }
 
         this.controls.update();
+
+        this.updateCamera();
 
         this.renderer.render(this.scene, this.camera);
     };

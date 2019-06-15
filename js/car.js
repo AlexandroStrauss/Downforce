@@ -44,13 +44,10 @@ class Car {
             camera.rotation.y = 0
 
         } else if (cameraType === "third-person") {
-            camera.position.y = 50
-            camera.position.z = 150
             this.boundingBox.add(camera);
 
-            camera.rotation.x = 0
-            camera.rotation.z = 0
-            camera.rotation.y = 0
+            camera.position.y = 50
+            camera.position.z = 150
         } else {
             camera.position.set(-840, 3500, 0)
             // this.boundingBox.add(camera);
