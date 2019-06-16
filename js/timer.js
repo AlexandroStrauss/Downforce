@@ -8,3 +8,5 @@ function timer(startTime) {
 
     return minutes + ':' + seconds + ':' + milliseconds
 }
+
+export default timer;

@@ -11,6 +11,7 @@ class Car {
         this.angle = 0;
 
         this.updatePosition = this.updatePosition.bind(this);
+        this.createBoundingBox = this.createBoundingBox.bind(this);
     }
 
     start (scene, camera, cameraType) {
@@ -26,6 +27,13 @@ class Car {
             console.error(error);
         })
 
+        this.createBoundingBox(scene, camera, cameraType);
+
+        this.fontLoader = new THREE.FontLoader();
+        this.font = this.fontLoader.load('fonts/optimer_regular.typeface.json')
+    }
+
+    createBoundingBox(scene, camera, cameraType) {
         var bound_geometry = new THREE.BoxGeometry(50, 50, 150);
         this.boundingBox = new THREE.Mesh(
             bound_geometry,
@@ -35,32 +43,48 @@ class Car {
         this.boundingBox.material.transparent = true;
         this.boundingBox.material.opacity = 0;
 
+        if (this.model) {
+            this.boundingBox.position = this.model.position;
+            this.boundingBox.rotation = this.model.rotation;
+        }
+
+        //unsuccessful attempt to allow for real-time camera controls
         if (cameraType === "first-person") {
-            camera.position.y = 40
-            camera.position.x = -10
+            if(this.boundingBox.children[0]) {
+                this.boundingBox.remove(camera)
+            }
+
             this.boundingBox.add(camera);
+
+            camera.position.set(-10, 40, 0)
 
             camera.rotation.x = 0
             camera.rotation.z = 0
             camera.rotation.y = 0
 
         } else if (cameraType === "third-person") {
+            if (this.boundingBox.children[0]) {
+                this.boundingBox.remove(camera)
+            }
+
             this.boundingBox.add(camera);
 
-            camera.position.y = 50
-            camera.position.z = 150
+            camera.position.set(0, 50, 150)
         } else {
+            if (this.boundingBox.children[0]) {
+                this.boundingBox.remove(camera)
+            }
+
             this.boundingBox.add(camera);
+
             camera.position.set(0, 1500, 0)
             // this.boundingBox.add(camera);
 
-            // camera.rotation.x = 0
+            // camera.rotation.x = -1.57
             // camera.rotation.z = 0
             // camera.rotation.y = 0
-
         }
-        this.fontLoader = new THREE.FontLoader();
-        this.font = this.fontLoader.load('fonts/optimer_regular.typeface.json')
+
     }
 
     drawHUD(scene) {

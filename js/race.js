@@ -9,7 +9,7 @@ class Race {
         this.car = new Car();
         this.track = new trackOneGeometry();
         this.scene = null;
-        this.cameraChoice = null;
+        this.cameraChoice = 'first-person';
         this.camera = null;
         this.controls = null;
         this.collidableObjects = [];
@@ -66,6 +66,24 @@ class Race {
         else if (e.key == "Down" || e.key == "ArrowDown") {
             this.downPressed = true;
         }
+
+        // Return to this later to create dynamic camera switching
+ 
+        // if (e.key == "Digit1" || e.key == "1") {
+        //     this.cameraChoice = "third-person"
+        //     this.scene.remove(this.car.boundingBox)
+        //     this.car.createBoundingBox(this.scene, this.camera, this.cameraChoice);
+        // }
+        // if (e.key == "Digit2" || e.key == "2") {
+        //     this.cameraChoice = "first-person"
+        //     this.scene.remove(this.car.boundingBox)
+        //     this.car.createBoundingBox(this.scene, this.camera, this.cameraChoice);
+        // }
+        // if (e.key == "Digit3" || e.key == "3") {
+        //     this.cameraChoice = "birds-eye"
+        //     this.scene.remove(this.car.boundingBox)
+        //     this.car.createBoundingBox(this.scene, this.camera, this.cameraChoice);
+        // }
     }
 
     keyUpHandler(e) {
@@ -148,6 +166,7 @@ class Race {
     updateCamera() {
         switch(this.cameraChoice) {
             case 'first-person':
+
                 this.camera.rotation.x = 0
                 this.camera.rotation.z = 0
                 this.camera.rotation.y = 0
@@ -159,7 +178,6 @@ class Race {
             break;
 
             default:
-                debugger
 
                 this.camera.rotation.x = -1.57
                 this.camera.rotation.z = 0
