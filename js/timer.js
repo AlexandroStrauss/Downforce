@@ -1,6 +1,6 @@
 function timer(startTime) {
     var time = new Date().getTime();
-    difference = time - startTime;
+    var difference = time - startTime;
 
     minutes = (minutes < 10) ? "0" + minutes : minutes;
     seconds = (seconds < 10) ? "0" + seconds : seconds;

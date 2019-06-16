@@ -9,8 +9,8 @@
         }
 
         canvas {
-            width: 100%;
-            height: 100%
+            width: 130%;
+            height: 130%
         }
     </style>
 </head>
@@ -21,11 +21,36 @@
     <div id="welcome" class="modal">
         <h2>Downforce</h2>
 
+        <ul>
+            <li>Use the arrow keys to control your car</li>
+            <li>Up to accelerate</li>
+            <li>Down to brake</li>
+            <li>Left and right to steer</li>
+        </ul>
+
         <p>Select your camera</p>
-        <input type="radio" name="cameraType" value="third-person">Chase Camera</div>
-        <input type="radio" name="cameraType" value="first-person">In-Car Camera</div>
-        <input type="radio" name="cameraType" value="birds-eye">Overhead Camera</div>
-        <input type="submit" value="Select Camera" />
+        <input type="radio" name="cameraType" id="cameraType" value="third-person" checked>Chase Camera</div>
+        <input type="radio" name="cameraType" id="cameraType" value="first-person">In-Car Camera</div>
+        <input type="radio" name="cameraType" id="cameraType" value="birds-eye">Overhead Camera</div>
+        <input type="submit" id="submit" value="Select Camera" />
+    </div>
+
+    <div class="outerHUD">
+        <div id="currLap">
+            Current lap:
+        </div>
+
+        <div id="lastLap">
+            Last lap:
+        </div>
+
+        <div id="currSpeed">
+            0 MPH
+        </div>
+
+        <div id="currDownforce">
+            0 lbs
+        </div>
     </div>
 
 </body>

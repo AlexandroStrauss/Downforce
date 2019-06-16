@@ -3,19 +3,20 @@ import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
 import trackOneGeometry from './trackOneGeometry';
 import collisions from './collisions';
+import Lap from './lap';
 
 class Race {
     constructor(cameraChoice) {
         this.car = new Car();
         this.track = new trackOneGeometry();
         this.scene = null;
-        this.cameraChoice = 'first-person';
+        this.cameraChoice = cameraChoice;
         this.camera = null;
         this.controls = null;
         this.collidableObjects = [];
         this.renderer = null;
-
-
+        this.lastLap = null;
+        this.lap = new Lap();
 
         this.rightPressed = false;
         this.leftPressed = false;
@@ -26,6 +27,7 @@ class Race {
         this.keyDownHandler = this.keyDownHandler.bind(this);
         this.keyUpHandler = this.keyUpHandler.bind(this);
         this.updateCamera = this.updateCamera.bind(this);
+        this.updateHUD = this.updateHUD.bind(this);
     }
 
     start() {
@@ -50,6 +52,7 @@ class Race {
         document.addEventListener("keydown", this.keyDownHandler, false);
         document.addEventListener("keyup", this.keyUpHandler, false);
 
+        this.lap.startLap();
         this.animate();
     }
 
@@ -102,7 +105,6 @@ class Race {
     }
 
     updatePhysics() {
-
         var velocity = this.car.velocity;
 
         // approximate downforce for a NASCAR car, assuming 2000lbs at 180mph
@@ -160,7 +162,25 @@ class Race {
         this.car.velocity = velocity;
         this.car.downforce = .312 * (Math.pow((velocity * .44704), 2))
 
+        if (this.car.crossingLine(velZ)) {
+            this.lastLap = this.lap.endLap();
+            debugger
+            document.getElementById("lastLap").innerHTML=`Last\n lap:\n ${this.lastLap}`;
+
+            this.lap = new Lap ();
+            this.lap.startLap();
+        }
+
         this.car.updatePosition(velX, velZ);
+
+        this.updateHUD();
+    }
+
+    updateHUD () {
+        this.lap.lapTime();
+        document.getElementById("currLap").innerHTML = `Current\n lap:\n ${this.lap.partialTime}`
+        document.getElementById("currSpeed").innerHTML = `${Math.floor(this.car.velocity)} MPH`
+        document.getElementById("currDownforce").innerHTML = `${Math.floor(this.car.downforce)} lbs`
     }
 
     updateCamera() {
@@ -178,11 +198,9 @@ class Race {
             break;
 
             default:
-
                 this.camera.rotation.x = -1.57
                 this.camera.rotation.z = 0
                 this.camera.rotation.y = 0
-
         }
         // if (this.cameraChoice === 'first-person') {
         //     this.camera.position.x = car.position.x

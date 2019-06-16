@@ -143,6 +143,15 @@ class Car {
         }
     }
 
+    crossingLine(dZ) {
+        if (this.boundingBox.position.z > 0 &&
+             (this.boundingBox.position.z - dZ/4) < 0) 
+             {
+                 return true;
+        }
+        return false;
+    }
+
     updatePosition(dX, dZ) {
         this.boundingBox.position.z -= (dZ / 4)
         this.boundingBox.position.x -= (dX / 4)
