@@ -3,16 +3,11 @@
 
 <head>
     <title>Downforce</title>
-    <style>
-        body {
-            margin: 0;
-        }
 
-        canvas {
-            width: 130%;
-            height: 130%
-        }
-    </style>
+    <link rel="stylesheet" href="./style/reset.css">
+    <link rel="stylesheet" href="./style/modal.css">
+    <link rel="stylesheet" href="./style/hud.css">
+
 </head>
 
 <body>
@@ -29,10 +24,9 @@
         </ul>
 
         <p>Select your camera</p>
-        <input type="radio" name="cameraType" id="cameraType" value="third-person" checked>Chase Camera</div>
-        <input type="radio" name="cameraType" id="cameraType" value="first-person">In-Car Camera</div>
-        <input type="radio" name="cameraType" id="cameraType" value="birds-eye">Overhead Camera</div>
-        <input type="submit" id="submit" value="Select Camera" />
+        <input type="radio" name="cameraType" value="third-person" checked>Chase Camera</div>
+        <input type="radio" name="cameraType" value="first-person">In-Car Camera</div>
+        <input type="radio" name="cameraType" value="birds-eye">Overhead Camera</div>
     </div>
 
     <div class="outerHUD">

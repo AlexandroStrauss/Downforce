@@ -38,7 +38,6 @@ class Race {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
 
-        // debugger
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableKeys = false;
 
@@ -46,7 +45,6 @@ class Race {
 
         this.track.createGeometry(this.scene);
 
-        // debugger
         this.car.start(this.scene, this.camera, this.cameraChoice);
 
         document.addEventListener("keydown", this.keyDownHandler, false);
@@ -164,7 +162,6 @@ class Race {
 
         if (this.car.crossingLine(velZ)) {
             this.lastLap = this.lap.endLap();
-            debugger
             document.getElementById("lastLap").innerHTML=`Last\n lap:\n ${this.lastLap}`;
 
             this.lap = new Lap ();
@@ -222,7 +219,6 @@ class Race {
             // downforceHUD.rotation.z = 0
             // downforceHUD.rotation.y = 0
 
-            // debugger
         // }
     }
 
