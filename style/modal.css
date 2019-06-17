@@ -8,10 +8,19 @@
     left: 0;
     top: 0;
     background-color: green;
-    border: 2px solid yellow;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
+    /* border: 2px solid yellow; */
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-align: center;
+}
+
+.modal input {
+    z-index: 3;
 }
 
 li {
     list-style: none
+}
+
+h2 {
+    font-size: 150px;
 }

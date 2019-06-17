@@ -47,6 +47,15 @@ class Race {
 
         this.car.start(this.scene, this.camera, this.cameraChoice);
 
+        // var dirLight = new THREE.DirectionalLight(0xffffff, 0.125);
+        // dirLight.position.set(0, 0, 1).normalize();
+        // this.scene.add(dirLight);
+
+        // var pointLight = new THREE.PointLight(0xffffff, 1.5);
+        // pointLight.position.set(0, 100, 90);
+        // this.scene.add(pointLight);
+
+
         document.addEventListener("keydown", this.keyDownHandler, false);
         document.addEventListener("keyup", this.keyUpHandler, false);
 
@@ -123,7 +132,8 @@ class Race {
             velocity = -5;
         }
 
-        var angleChange = ((1 / Math.log(Math.abs(velocity))) / 8);
+        // var angleChange = ((1 / Math.log(Math.abs(velocity))) / 8);
+        var angleChange = Math.log(downforce + 1) / 256
 
         if (this.leftPressed) {
             this.car.angle += angleChange;
@@ -148,7 +158,7 @@ class Race {
 
         if (collisions(this.car.boundingBox, this.track.collidableObjects)) {
             if (this.car.model.position.z > 0) {
-                velX = -Math.abs(velX);
+                velX = -(velX);
                 velZ = -Math.abs(velZ);
             } else {
                 velX = -velX;
