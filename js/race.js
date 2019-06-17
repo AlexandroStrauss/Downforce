@@ -59,8 +59,9 @@ class Race {
         document.addEventListener("keydown", this.keyDownHandler, false);
         document.addEventListener("keyup", this.keyUpHandler, false);
 
-        this.lap.startLap();
         this.animate();
+        this.lap.startLap();
+
     }
 
     keyDownHandler(e) {

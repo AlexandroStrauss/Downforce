@@ -16,3 +16,6 @@ class trackOneGeometry {
             new THREE.BoxGeometry(90, 300, 90),
             new THREE.MeshBasicMaterial({ color: 0x00ffff }));
         scene.add(tower2);
+
+    }
+}
