@@ -24,10 +24,10 @@ class Car {
 
         loader.load('../2018_nascar_camaro/scene.gltf', modelLoad,
             function (xhr) {
-
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-
-            }, function (error) {
+                debugger;
+            }, 
+            function (error) {
             console.error(error);
         })
 
