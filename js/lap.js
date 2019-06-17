@@ -16,6 +16,7 @@ class Lap {
 
         var milliseconds = difference % 1000;
         var seconds = Math.floor(difference/1000);
+        seconds = seconds % 60;
         var minutes = Math.floor(seconds / 60);
 
         minutes = (minutes < 10) ? "0" + minutes : minutes;
