@@ -4,7 +4,6 @@
 
 # Ignore bundler config.
 /.bundle
-bundle.js.map
 
 /node_modules
 /yarn-error.log
