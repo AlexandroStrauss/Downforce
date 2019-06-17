@@ -19,15 +19,19 @@ class Car {
         var loader = new GLTFLoader();
         const modelLoad = (function (gltf) {
             this.model = gltf.scene;
-            // scene.add(gltf.scene);
+            scene.add(gltf.scene);
         }).bind(this);
 
         loader.load('../2018_nascar_camaro/scene.gltf', modelLoad,
-         undefined, function (error) {
+            function (xhr) {
+
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+
+            }, function (error) {
             console.error(error);
         })
 
-        loader.onLoadComplete = function () { scene.add(this.model) } 
+        // loader.onLoadComplete = function () { scene.add(this.model) } 
 
         this.createBoundingBox(scene, camera, cameraType);
 
