@@ -16,16 +16,16 @@ class Car {
 
     start (scene, camera, cameraType) {
         var loader = new GLTFLoader();
-        const modelLoad = (function (gltf) {
-            debugger
+        function modelLoad(gltf) {
             this.model = gltf.scene;
-            scene.add(gltf.scene);
-        }).bind(this);
+            scene.add(this.model);
+        }
+        
+        modelLoad = modelLoad.bind(this);
 
-        loader.load('../2018_nascar_camaro/scene.gltf', modelLoad,
+        loader.load('2018_nascar_camaro/scene.gltf', modelLoad,
             function (xhr) {
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-                debugger;
             }, 
             function (error) {
             console.error(error);
