@@ -12,6 +12,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     submit.addEventListener('click', () => (startRace(modal)))
-    // submit.onclick(() => (startRace(modal)))
-    // submit.addEventListener('click', startRace(modal));
 })

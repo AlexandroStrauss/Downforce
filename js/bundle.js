@@ -130,7 +130,7 @@ eval("__webpack_require__.r(__webpack_exports__);\nclass Lap {\n    constructor(
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _race__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./race */ \"./js/race.js\");\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n    var modal = document.getElementById('welcome'); \n    var submit = document.getElementById('submit')\n\n    const startRace = function(modal) {\n        var cameraChoice = document.querySelector('input[name=\"cameraType\"]:checked').value;\n        modal.style.display = 'none';\n        const race = new _race__WEBPACK_IMPORTED_MODULE_0__[\"default\"](cameraChoice);\n        race.start();\n    }\n\n    submit.addEventListener('click', () => (startRace(modal)))\n    // submit.onclick(() => (startRace(modal)))\n    // submit.addEventListener('click', startRace(modal));\n})\n\n//# sourceURL=webpack:///./js/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _race__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./race */ \"./js/race.js\");\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n    var modal = document.getElementById('welcome'); \n    var submit = document.getElementById('submit')\n\n    const startRace = function(modal) {\n        var cameraChoice = document.querySelector('input[name=\"cameraType\"]:checked').value;\n        modal.style.display = 'none';\n        const race = new _race__WEBPACK_IMPORTED_MODULE_0__[\"default\"](cameraChoice);\n        race.start();\n    }\n\n    submit.addEventListener('click', () => (startRace(modal)))\n})\n\n//# sourceURL=webpack:///./js/main.js?");
 
 /***/ }),
 
