@@ -7,10 +7,17 @@
     height: 100%;
     left: 0;
     top: 0;
-    background-color: green;
+    background-image: url('../checkered-flag-high-resolution-wallpaper.jpg');
     /* border: 2px solid yellow; */
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     text-align: center;
+    color: white;
+    font-size: 35px;
+        -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: black;
+
 }
 
 .modal input {
@@ -21,6 +28,32 @@ li {
     list-style: none
 }
 
+.modal p {
+    margin: 20px;
+}
+
 h2 {
-    font-size: 150px;
+    font-size: 120px;
+    margin: 40px;
+    -webkit-text-fill-color: royalblue;
+      -webkit-text-stroke-width: 5px;
+
+
+}
+
+.gameSettings {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#submit {
+    border: 2px solid black;
+            -webkit-text-fill-color: black; /* Will override color (regardless of order) */
+    background-color: aliceblue;
+    font-size: 24px;
+    padding: 8px;
+    margin: 16px;
 }

@@ -4,10 +4,17 @@
   z-index: 1;
   left: 20px;
   bottom: 20px;
-  background-color: white;
+  /* background-color: white; */
+  background-image: url('../checkered-flag-high-resolution-wallpaper.jpg');
+
   min-width: 200px;
-  border: 2px solid black;
-  padding: 16px 
+  border: 2px solid white;
+  padding: 16px;
+  -webkit-text-fill-color: orangered;
+
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+
 }
 
 .outerHUD div {

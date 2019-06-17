@@ -27,6 +27,8 @@ class Car {
             console.error(error);
         })
 
+        // loader.onLoadComplete = function () { scene.add(this.model) } 
+
         this.createBoundingBox(scene, camera, cameraType);
 
         this.fontLoader = new THREE.FontLoader();

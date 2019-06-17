@@ -14,20 +14,27 @@
     <script src="js/bundle.js"></script>
 
     <div id="welcome" class="modal">
+        <p>Airplanes fly using the aerodynamic principle of LIFT.</p>
+        <p>But flip an airplane wing upside down, and you get the opposite effect...</p>
+        
         <h2>DOWNFORCE</h2>
 
         <ul>
             <li>Use the arrow keys to control your car</li>
-            <li>Up to accelerate</li>
-            <li>Down to brake</li>
-            <li>Left and right to steer</li>
+            <li>Up to accelerate, down to brake, left and right to steer</li>
+            <li>The faster your goes, the more DOWNFORCE it has, and the better it will handle</li>
+            <li>Go as fast as you dare to set the quickest lap time!</li>
         </ul>
 
-        <p>Select your camera</p>
+        <p>Select camera angle</p>
+        <div class="gameSettings">
+
         <input type="radio" name="cameraType" value="third-person">Chase Camera</input>
         <input type="radio" name="cameraType" value="first-person">In-Car Camera</input>
         <input type="radio" name="cameraType" value="birds-eye">Overhead Camera</input>
+        </div>
         <input type="submit" id="submit" value="Start Race" />
+
     </div>
 
     <div class="outerHUD">
