@@ -15,9 +15,9 @@ class Car {
     }
 
     start (scene, camera, cameraType) {
-        let model;
         var loader = new GLTFLoader();
         const modelLoad = (function (gltf) {
+            debugger
             this.model = gltf.scene;
             scene.add(gltf.scene);
         }).bind(this);
