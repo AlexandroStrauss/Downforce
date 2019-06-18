@@ -41,6 +41,10 @@ h2 {
 
 }
 
+li {
+    font-size: 30px;
+}
+
 .gameSettings {
     margin: 0 auto;
     display: flex;

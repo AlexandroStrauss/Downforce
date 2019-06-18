@@ -4,6 +4,7 @@
   "description": "## Background and overview",
   "main": "webpack.config.js",
   "dependencies": {
+    "howler": "^2.1.2",
     "three": "^0.105.2",
     "three-gltf-loader": "^1.105.0",
     "three-orbitcontrols": "^2.102.1",

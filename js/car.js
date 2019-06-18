@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import GLTFLoader from 'three-gltf-loader';
+import { Howl, Howler } from 'howler';
 
 class Car {
     constructor() {
@@ -37,6 +38,7 @@ class Car {
 
         this.fontLoader = new THREE.FontLoader();
         this.font = this.fontLoader.load('fonts/optimer_regular.typeface.json')
+        // this.carSounds();
     }
 
     createBoundingBox(scene, camera, cameraType) {
@@ -91,6 +93,29 @@ class Car {
             // camera.rotation.y = 0
         }
 
+    }
+
+    carSounds() {
+        var AudioContext = window.AudioContext || window.webkitAudioContext;
+        var audioCtx = new AudioContext();
+
+        var sound = new Howl({
+            src: ['nascar_sound_basic_loop.mp3'],
+            loop: true,
+        })
+
+        // sound.rate(this.velocity / 180);
+
+        sound.play();
+    }
+
+    reset() {
+        this.model.position.set(0, 0, 0);
+        this.model.rotation.set(0, 0, 0);
+        this.boundingBox.position.set(0, 0, 0);
+        this.boundingBox.rotation.set(0, 0, 0);
+        this.velocity = 0;
+        this.angle = 0;
     }
 
     drawHUD(scene) {

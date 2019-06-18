@@ -78,6 +78,12 @@ class Race {
             this.downPressed = true;
         }
 
+        if (e.key == "r") {
+            this.car.reset();
+            this.lap = new Lap();
+            this.lap.startLap();
+        }
+
         // Return to this later to create dynamic camera switching
  
         // if (e.key == "Digit1" || e.key == "1") {
