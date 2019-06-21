@@ -20,13 +20,14 @@ class Car {
         function modelLoad(gltf) {
             this.model = gltf.scene;
             scene.add(this.model);
+            // document.getElementById('loading').style.display = 'none';
         }
         
         modelLoad = modelLoad.bind(this);
 
         loader.load('2018_nascar_camaro/scene.gltf', modelLoad,
             function (xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                // console.log((xhr.loaded / xhr.total * 100) + '% loaded');
             }, 
             function (error) {
             console.error(error);

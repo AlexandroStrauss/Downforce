@@ -22,6 +22,7 @@ class Race {
         this.bestLapRaw = null;
         this.lap = new Lap();
         this.lapCount = 0;
+        this.maxLaps = this.track.maxLaps;
 
         this.rightPressed = false;
         this.leftPressed = false;
@@ -65,7 +66,9 @@ class Race {
         document.addEventListener("keyup", this.keyUpHandler, false);
 
         this.animate();
+
         this.lap.startLap();
+
 
         if (this.carChoice === 'kroger') {
             var ambientLight = new THREE.AmbientLight(0xccccccc);
@@ -153,7 +156,7 @@ class Race {
         }
 
         // var angleChange = ((1 / Math.log(Math.abs(velocity))) / 8);
-        var angleChange = Math.log(downforce + 1) / 448
+        var angleChange = Math.log10((downforce ** 2) + 1) / 384
 
         if (this.leftPressed) {
             this.car.angle += angleChange;
@@ -205,7 +208,7 @@ class Race {
             this.lap.startLap();
         }
 
-        if (this.lapCount > 1) // altered for testing, should be more
+        if (this.lapCount > this.maxLaps) // altered for testing, should be more
         {
             this.endRace();
         }
@@ -220,7 +223,7 @@ class Race {
         const end = document.getElementById("race-end")
         end.style.display = 'block';
 
-        document.getElementById("lapCount").innerHTML = `Your best lap was ${timeConverter(this.bestLapRaw)}`
+        document.getElementById("bestTime").innerHTML = `Your best lap time was ${timeConverter(this.bestLapRaw)}`
 
         debugger
         document.getElementById("restart").addEventListener('click', () => {
@@ -233,7 +236,7 @@ class Race {
         document.getElementById("currLap").innerHTML = this.lapCount === 0 ? '' :`Current\n lap:\n ${this.lap.partialTime}`
         document.getElementById("currSpeed").innerHTML = `${Math.floor(this.car.velocity)} MPH`
         document.getElementById("currDownforce").innerHTML = `${Math.floor(this.car.downforce)} lbs`
-        document.getElementById("lapCount").innerHTML = this.lapCount === 0? "Warm-up lap" : `Lap ${this.lapCount}/5`
+        document.getElementById("lapCount").innerHTML = this.lapCount === 0? "Warm-up lap" : `Lap ${this.lapCount}/${this.maxLaps}`
     }
 
     updateCamera() {

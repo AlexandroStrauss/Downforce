@@ -25,6 +25,16 @@
     top: 0px;
 }
 
+#loading {
+    display: block;
+    margin: 0 auto;
+    top: 50%;
+    z-index: 1;
+    color: black;
+    font-size: 30px;
+    background-color: aliceblue;
+}
+
 #intro-sheet {
     z-index: 5;
 }
@@ -45,14 +55,21 @@ li {
     list-style: none
 }
 
-.instructions p {
-    margin: 10px;
+#instructions p, #race-settings p {
+    color: orangered;
 }
+
+#top-select {
+    color: black;
+    font-size: 40px;
+    margin: 0 0 0px 0;
+}
+
 
 h2 {
     font-size: 100px;
     padding: 30px;
-    -webkit-text-fill-color: royalblue;
+    -webkit-text-fill-color: orangered;
       -webkit-text-stroke-width: 5px;
 }
 
@@ -84,24 +101,42 @@ ul {
 
 }
 
-#submit, #continue, #click-through {
+#submit, #continue, #click-through, #restart {
     border: 2px solid orangered;
-            -webkit-text-fill-color: orangered; /* Will override color (regardless of order) */
+    border-radius: 3px;
+    -webkit-text-fill-color: orangered; /* Will override color (regardless of order) */
     background-color: aliceblue;
     font-size: 24px;
-    padding: 8px;
+    padding: 14px 12px;
     margin: 16px;
+    outline: none;
 }
 
 #race-end {  
     position: fixed;
     display: none;
-    width: 100%;
-    height: 100%;
-    left: 0;
+    width: 100vw;
+    height: 100vw;
+    margin: 0 auto;
     top: 0;
-    opacity: 0;
+    /* opacity: 0; */
     z-index: 4;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 50px;
+    text-align: center;
+    color: orangered;
+    background-color: aliceblue;
+
+}
+
+#race-end p {
+    margin: 0;
+    padding: 0;
+}
+
+#race-end img {
+    width: 960px;
+    height: 504px;
 }
 
 #faster {
@@ -109,10 +144,10 @@ ul {
 }
 
 #submit:hover, #continue:hover, #click-through:hover {
-    background-color: green;
+    /* background-color: greenyellow; */
 }
 
 #submit:focus, #continue:focus, #click-through:focus {
-    background-image: url('../checkered-flag-high-resolution-wallpaper.jpg');
+    background-image: url('../checkered_flag.jpg');
 
 }

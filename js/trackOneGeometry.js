@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 class trackOneGeometry {
     constructor() {
+        this.maxLaps = 5;
         this.collidableObjects = [];
         this.createGeometry = this.createGeometry.bind(this);
     }
@@ -72,7 +73,6 @@ class trackOneGeometry {
 
         this.collidableObjects.push(outerSphere, outerSphere2, sphere, sphere2, cylinder, cylinder2, frontstretch, frontstretch2, backstretch, backstretch2)
     }
-
 }
 
 export default trackOneGeometry;

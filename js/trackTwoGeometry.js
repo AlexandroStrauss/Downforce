@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 class trackTwoGeometry {
     constructor() {
+        this.maxLaps = 2;
         this.collidableObjects = [];
         this.createGeometry = this.createGeometry.bind(this);
     }
@@ -37,7 +38,15 @@ class trackTwoGeometry {
 
         scene.add(cylinder)
         cylinder.position.set(900, 75, -6500)
-        this.collidableObjects.push(frontstretchInside, frontstretchOutside)
+
+        var straight2InsideGeometry = new THREE.BoxGeometry(100, 100, 3500);
+        var straight2Inside = new THREE.Mesh(straight2InsideGeometry, straightMaterial);
+        scene.add(straight2Inside)
+        
+        straight2Inside.position.set(2400, 50, -6500)
+        straight2Inside.rotation.set(0, 1, 0)
+
+        this.collidableObjects.push(frontstretchInside, frontstretchOutside, cylinder, straight2Inside)
     }
 
 

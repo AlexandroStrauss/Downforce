@@ -4,6 +4,10 @@
 <head>
     <title>Downforce</title>
 
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+
     <link rel="stylesheet" href="./style/reset.css">
     <link rel="stylesheet" href="./style/modal.css">
     <link rel="stylesheet" href="./style/hud.css">
@@ -25,7 +29,7 @@
         </div>
 
         <div id="instructions">
-            INSTRUCTIONS
+            <p>INSTRUCTIONS</p>
             
             <ul>
                 <li>Use the arrow keys to control your car:</li>
@@ -45,7 +49,7 @@
 
 
         <div id="race-settings">
-                <p>Select your car, track, and camera angle to get started.</p>
+                <p id="top-select">Select a car, track, and camera angle to race.</p>
 
                 <p>Select car:</p>
                 <div class="gameSettings">
@@ -72,7 +76,22 @@
                 
                 <input type="submit" id="submit" value="Start Race" />
         </div>
-        </div>
+
+        <a href="https://linkedin.com">
+                <!-- <FontAwesomeIcon icon={faLinkedin} /> -->
+        </a>
+
+
+        <a href="https://github.com/AlexandroStrauss">
+                <!-- <FontAwesomeIcon icon={faGithub} /> -->
+        </a>
+
+
+
+    </div>
+
+    <div id="loading">
+        Loading models...
     </div>
 
     <div class="outerHUD">
@@ -107,6 +126,8 @@
 
     <div id="race-end">
         <p>Checkered flag!</p>
+
+        <img src="../47wins.jpg" alt="image: FOX Sports | https://b.fssta.com/uploads/2018/05/3_a_180521_nrh_aj_open_lastlap.vresize.1200.630.high.24.jpg">
 
         <div id="bestTime">
         </div>
