@@ -1,7 +1,10 @@
+import timeConverter from "./timeConverter";
+
 class Lap {
     constructor() {
         this.startTime = null;
         this.partialTime = null;
+        this.partialTimeRaw = null;
 
         this.lapTime = this.lapTime.bind(this);
     }
@@ -14,17 +17,19 @@ class Lap {
         var time = new Date().getTime();
         var difference = time - this.startTime;
 
-        var milliseconds = difference % 1000;
-        var seconds = Math.floor(difference/1000);
-        var minutes = Math.floor(seconds / 60);
+        this.partialTimeRaw = difference;
 
-        seconds = seconds % 60;
+        // var milliseconds = difference % 1000;
+        // var seconds = Math.floor(difference/1000);
+        // var minutes = Math.floor(seconds / 60);
 
-        minutes = (minutes < 10) ? "0" + minutes : minutes;
-        seconds = (seconds < 10) ? "0" + seconds : seconds;
-        milliseconds = (milliseconds < 100) ? (milliseconds < 10) ? "00" + milliseconds : "0" + milliseconds : milliseconds;
+        // seconds = seconds % 60;
 
-        this.partialTime = minutes + ':' + seconds + ':' + milliseconds
+        // minutes = (minutes < 10) ? "0" + minutes : minutes;
+        // seconds = (seconds < 10) ? "0" + seconds : seconds;
+        // milliseconds = (milliseconds < 100) ? (milliseconds < 10) ? "00" + milliseconds : "0" + milliseconds : milliseconds;
+
+        this.partialTime = timeConverter(difference);
     }
 
     endLap () {

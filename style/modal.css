@@ -11,16 +11,33 @@
     /* border: 2px solid yellow; */
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     text-align: center;
-    color: white;
-    font-size: 35px;
-        -webkit-text-fill-color: white; /* Will override color (regardless of order) */
-
-  -webkit-text-stroke-width: 1.5px;
-  -webkit-text-stroke-color: black;
-
 }
 
-.modal input {
+#instructions, #intro-sheet, #race-settings {
+    display: block;
+
+    color: black;
+    font-size: 30px;
+    background-color: aliceblue;
+    width: 60%;
+    height: 100%;
+    margin: 0 auto;
+    top: 0px;
+}
+
+#intro-sheet {
+    z-index: 5;
+}
+
+#instructions {
+    z-index: 4;
+}
+
+#race-settings {
+    z-index: 3;
+}
+
+.instructions input {
     z-index: 3;
 }
 
@@ -28,36 +45,74 @@ li {
     list-style: none
 }
 
-.modal p {
-    margin: 20px;
+.instructions p {
+    margin: 10px;
 }
 
 h2 {
-    font-size: 120px;
-    margin: 40px;
+    font-size: 100px;
+    padding: 30px;
     -webkit-text-fill-color: royalblue;
       -webkit-text-stroke-width: 5px;
+}
 
-
+div p {
+    padding: 30px 0 0 0;
+    margin-block-start: 0;
 }
 
 li {
     font-size: 30px;
 }
 
+ul {
+    padding: 30px 0 0 0;
+}
 .gameSettings {
-    margin: 0 auto;
+    left: 70px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-#submit {
-    border: 2px solid black;
-            -webkit-text-fill-color: black; /* Will override color (regardless of order) */
+.gameSettings div {
+        display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#submit, #continue, #click-through {
+    border: 2px solid orangered;
+            -webkit-text-fill-color: orangered; /* Will override color (regardless of order) */
     background-color: aliceblue;
     font-size: 24px;
     padding: 8px;
     margin: 16px;
+}
+
+#race-end {  
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    z-index: 4;
+}
+
+#faster {
+    padding-top: 30px;
+}
+
+#submit:hover, #continue:hover, #click-through:hover {
+    background-color: green;
+}
+
+#submit:focus, #continue:focus, #click-through:focus {
+    background-image: url('../checkered-flag-high-resolution-wallpaper.jpg');
+
 }

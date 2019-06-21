@@ -14,7 +14,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack --watch --mode=development"
+    "webpack": "webpack --watch --mode=development", 
+    "start": "http-server . -p 8000"
   },
   "repository": {
     "type": "git",

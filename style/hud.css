@@ -4,10 +4,24 @@
   z-index: 1;
   left: 20px;
   bottom: 20px;
+  min-width: 100px;
+}
+
+.timingHUD {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 20px;
+  top: 20px;
+  min-width: 200px;
+
+
+}
+
+.outerHUD, .timingHUD {
   /* background-color: white; */
   background-image: url('../checkered-flag-high-resolution-wallpaper.jpg');
 
-  min-width: 200px;
   border: 2px solid white;
   padding: 16px;
   -webkit-text-fill-color: orangered;
@@ -17,8 +31,10 @@
 
 }
 
-.outerHUD div {
+.outerHUD div, .timingHUD div {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-size: 20px;
 }
+
+
 

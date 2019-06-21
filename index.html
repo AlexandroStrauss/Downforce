@@ -14,38 +14,68 @@
     <script src="js/bundle.js"></script>
 
     <div id="welcome" class="modal">
-        <p>Airplanes fly using the aerodynamic principle of LIFT.</p>
-        <p>But flip an airplane wing upside down, and you get the opposite effect...</p>
-        
-        <h2>DOWNFORCE</h2>
 
-        <ul>
-            <li>Use the arrow keys to control your car</li>
-            <li>Up to accelerate, down to brake, left and right to steer</li>
-            <li>Press R to reset</li>
-            <li>The faster your goes, the more DOWNFORCE it has, and the better it will handle</li>
-            <li>Go as fast as you dare to set the quickest lap time!</li>
-        </ul>
+        <div id="intro-sheet">
+            <p>Airplanes fly using the aerodynamic principle of LIFT.</p>
+            <p>But flip an airplane wing upside down, and you get the opposite effect...</p>
+            
+            <h2>DOWNFORCE</h2>
 
-        <p>Select camera angle</p>
-        <div class="gameSettings">
-
-        <input type="radio" name="cameraType" value="third-person">Chase Camera</input>
-        <input type="radio" name="cameraType" value="first-person">In-Car Camera</input>
-        <input type="radio" name="cameraType" value="birds-eye">Overhead Camera</input>
+            <input type="submit" id="click-through" value="Continue" />
         </div>
-        <input type="submit" id="submit" value="Start Race" />
 
+        <div id="instructions">
+            INSTRUCTIONS
+            
+            <ul>
+                <li>Use the arrow keys to control your car:</li>
+                <li>Up to accelerate, down to brake, left and right to steer.</li>
+            </ul>
+              
+            <div id="faster">The faster your car goes, the more DOWNFORCE it has, and the better it will handle. </div>
+
+            <ul>
+                <li>You have one lap to get up to speed.</li>
+                <li>After that, you have just five laps to set the quickest time you can!</li>
+                <li>If you crash, press R to reset.</li>
+            </ul>
+
+            <input type="submit" id="continue" value="Continue" />
+        </div>
+
+
+        <div id="race-settings">
+                <p>Select your car, track, and camera angle to get started.</p>
+
+                <p>Select car:</p>
+                <div class="gameSettings">
+
+                    <div><input type="radio" name="carChoice" value="black">Black</input></div>
+                    <div><input type="radio" name="carChoice" value="kroger">#47 A.J. Allmendinger Kroger ClickList Camaro</input></div>
+                </div>
+
+                <p>Select track:</p>
+                <div class="gameSettings">
+                
+                    <div><input type="radio" name="trackChoice" value="oval">Oval</input></div>
+                    <div><input type="radio" name="trackChoice" value="road">Twisty</input></div>
+                </div>
+
+
+                <p>Select camera angle:</p>
+                <div class="gameSettings">
+
+                    <div><input type="radio" name="cameraType" value="third-person">Chase Camera</input></div>
+                    <div><input type="radio" name="cameraType" value="first-person">In-Car Camera</input></div>
+                    <div><input type="radio" name="cameraType" value="birds-eye">Overhead Camera</input></div>
+                </div>
+                
+                <input type="submit" id="submit" value="Start Race" />
+        </div>
+        </div>
     </div>
 
     <div class="outerHUD">
-        <div id="currLap">
-            Current lap:
-        </div>
-
-        <div id="lastLap">
-            Last lap:
-        </div>
 
         <div id="currSpeed">
             0 MPH
@@ -54,6 +84,34 @@
         <div id="currDownforce">
             0 lbs
         </div>
+
+    </div>
+
+    <div class="timingHUD">
+        <div id="lapCount">
+            Warm-up lap
+        </div>
+
+        <div id="currLap">
+            Current lap:
+        </div>
+        
+        <div id="lastLap">
+        </div>
+
+        <div id="bestLap">
+        </div>
+
+
+    </div>
+
+    <div id="race-end">
+        <p>Checkered flag!</p>
+
+        <div id="bestTime">
+        </div>
+
+        <input type="submit" id="restart" value="Race Again" />
     </div>
 
 </body>

@@ -4,19 +4,24 @@ import OrbitControls from 'three-orbitcontrols';
 import trackOneGeometry from './trackOneGeometry';
 import collisions from './collisions';
 import Lap from './lap';
+import trackTwoGeometry from './trackTwoGeometry';
+import timeConverter from './timeConverter';
 
 class Race {
-    constructor(cameraChoice) {
+    constructor(cameraChoice, carChoice, trackChoice) {
         this.car = new Car();
-        this.track = new trackOneGeometry();
+        this.track = trackChoice === 'oval' ? new trackOneGeometry() : new trackTwoGeometry();
         this.scene = null;
         this.cameraChoice = cameraChoice;
+        this.carChoice = carChoice;
         this.camera = null;
         this.controls = null;
         this.collidableObjects = [];
         this.renderer = null;
         this.lastLap = null;
+        this.bestLapRaw = null;
         this.lap = new Lap();
+        this.lapCount = 0;
 
         this.rightPressed = false;
         this.leftPressed = false;
@@ -61,6 +66,14 @@ class Race {
 
         this.animate();
         this.lap.startLap();
+
+        if (this.carChoice === 'kroger') {
+            var ambientLight = new THREE.AmbientLight(0xccccccc);
+            this.scene.add(ambientLight);
+            var pointLight = new THREE.PointLight(0xffffff, 1);
+            pointLight.position.set(10, 5, 0);
+        }
+
 
     }
 
@@ -125,10 +138,10 @@ class Race {
         var downforce = .312 * (Math.pow((velocity * .44704), 2))
 
         if (this.upPressed && velocity >= 0) {
-            var acceleration = (22.7 - (0.0864 * velocity) - (0.0000892 * Math.pow(velocity, 2))) / 120
+            var acceleration = (22.7 - (0.0864 * velocity) - (0.0000892 * Math.pow(velocity, 2))) / 60
             velocity += acceleration
         } else if (this.upPressed && velocity < 0) {
-            var deceleration = (-33.6 - 3.12 * Math.log(Math.abs(velocity))) / 120
+            var deceleration = (-33.6 - 3.12 * Math.log(Math.abs(velocity))) / 60
             velocity -= deceleration
         }
 
@@ -140,7 +153,7 @@ class Race {
         }
 
         // var angleChange = ((1 / Math.log(Math.abs(velocity))) / 8);
-        var angleChange = Math.log(downforce + 1) / 256
+        var angleChange = Math.log(downforce + 1) / 448
 
         if (this.leftPressed) {
             this.car.angle += angleChange;
@@ -160,8 +173,8 @@ class Race {
 
         // these are swapped because of the starting direction of the car.
         // X should be calculated from cosine, Z from sine
-        var velX = velocity * Math.sin(this.car.angle);
-        var velZ = velocity * Math.cos(this.car.angle);
+        var velX = velocity * Math.sin(this.car.angle) / 2;
+        var velZ = velocity * Math.cos(this.car.angle) / 2;
 
         if (collisions(this.car.boundingBox, this.track.collidableObjects)) {
             if (this.car.model.position.z > 0) {
@@ -179,10 +192,22 @@ class Race {
 
         if (this.car.crossingLine(velZ)) {
             this.lastLap = this.lap.endLap();
-            document.getElementById("lastLap").innerHTML=`Last\n lap:\n ${this.lastLap}`;
+            var lapRaw = this.lap.partialTimeRaw; 
+            if (lapRaw < this.bestLapRaw || this.bestLapRaw === null) {
+                this.bestLapRaw = lapRaw
+            }
 
+            document.getElementById("lastLap").innerHTML = this.lapCount === 0 ? '' : `Last\n lap:\n ${this.lastLap}`;
+            document.getElementById("bestLap").innerHTML= this.lapCount === 0 ? '' : `Best\n lap:\n ${timeConverter(this.bestLapRaw)}`;
+
+            this.lapCount += 1;
             this.lap = new Lap ();
             this.lap.startLap();
+        }
+
+        if (this.lapCount > 1) // altered for testing, should be more
+        {
+            this.endRace();
         }
 
         this.car.updatePosition(velX, velZ);
@@ -190,17 +215,30 @@ class Race {
         this.updateHUD();
     }
 
+    endRace () {
+        debugger
+        const end = document.getElementById("race-end")
+        end.style.display = 'block';
+
+        document.getElementById("lapCount").innerHTML = `Your best lap was ${timeConverter(this.bestLapRaw)}`
+
+        debugger
+        document.getElementById("restart").addEventListener('click', () => {
+            location.reload();
+        })
+    }
+
     updateHUD () {
         this.lap.lapTime();
-        document.getElementById("currLap").innerHTML = `Current\n lap:\n ${this.lap.partialTime}`
+        document.getElementById("currLap").innerHTML = this.lapCount === 0 ? '' :`Current\n lap:\n ${this.lap.partialTime}`
         document.getElementById("currSpeed").innerHTML = `${Math.floor(this.car.velocity)} MPH`
         document.getElementById("currDownforce").innerHTML = `${Math.floor(this.car.downforce)} lbs`
+        document.getElementById("lapCount").innerHTML = this.lapCount === 0? "Warm-up lap" : `Lap ${this.lapCount}/5`
     }
 
     updateCamera() {
         switch(this.cameraChoice) {
             case 'first-person':
-
                 this.camera.rotation.x = 0
                 this.camera.rotation.z = 0
                 this.camera.rotation.y = 0
@@ -209,12 +247,11 @@ class Race {
                 this.camera.rotation.x = 0
                 this.camera.rotation.z = 0
                 this.camera.rotation.y = 0
-            break;
-
+                break;
             default:
-                this.camera.rotation.x = -1.57
-                this.camera.rotation.z = 0
-                this.camera.rotation.y = 0
+                // this.camera.rotation.x = -1.57
+                // this.camera.rotation.z = 0
+                // this.camera.rotation.y = 0
         }
         // if (this.cameraChoice === 'first-person') {
         //     this.camera.position.x = car.position.x
@@ -263,9 +300,6 @@ class Race {
         this.renderer.render(this.scene, this.camera);
     };
 }
-
-
-
 
 // if (crossedLine(boundingBox, velocity, plane)) {
 //     lapCount += 1
