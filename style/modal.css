@@ -69,6 +69,7 @@ li {
 h2 {
     font-size: 100px;
     padding: 30px;
+    margin: 50px 0;
     -webkit-text-fill-color: orangered;
       -webkit-text-stroke-width: 5px;
 }
@@ -150,4 +151,35 @@ ul {
 #submit:focus, #continue:focus, #click-through:focus {
     background-image: url('../checkered_flag.jpg');
 
+}
+
+#loading {
+    position: absolute;
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    top: 0px;
+    background-image: url('../47loading.jpg'); 
+    background-position: center;
+    /* image from https://pbs.twimg.com/media/CLzn5zRUsAATPYz.jpg */
+    z-index: 10;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+    font-size: 75px;
+    color: white;
+}
+
+#loading p {
+    position: relative;
+    top: 80px;
+    left: 100px;
+}
+
+.social-links a {
+    /* font-size: 40px; */
+    color: orangered
+}
+
+h6 {
+    margin: 10px;
 }

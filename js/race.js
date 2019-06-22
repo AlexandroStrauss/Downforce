@@ -219,13 +219,11 @@ class Race {
     }
 
     endRace () {
-        debugger
         const end = document.getElementById("race-end")
         end.style.display = 'block';
 
         document.getElementById("bestTime").innerHTML = `Your best lap time was ${timeConverter(this.bestLapRaw)}`
 
-        debugger
         document.getElementById("restart").addEventListener('click', () => {
             location.reload();
         })

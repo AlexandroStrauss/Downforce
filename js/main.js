@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
         var cameraChoice = document.querySelector('input[name="cameraType"]:checked').value;
         var trackChoice = document.querySelector('input[name="trackChoice"]:checked').value;
         var carChoice = document.querySelector('input[name="carChoice"]:checked').value;
+        const loading = document.getElementById('loading')
+        loading.style.display = 'block';
         modal1.style.display = 'none';
         modal2.style.display = 'none';
         const race = new Race(cameraChoice, carChoice, trackChoice);

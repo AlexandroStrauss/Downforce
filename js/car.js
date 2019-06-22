@@ -20,7 +20,7 @@ class Car {
         function modelLoad(gltf) {
             this.model = gltf.scene;
             scene.add(this.model);
-            // document.getElementById('loading').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
         }
         
         modelLoad = modelLoad.bind(this);
