@@ -302,9 +302,4 @@ class Race {
     };
 }
 
-// if (crossedLine(boundingBox, velocity, plane)) {
-//     lapCount += 1
-//     console.log(lapCount)
-// }
-
 export default Race;
