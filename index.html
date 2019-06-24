@@ -4,10 +4,10 @@
 <head>
     <title>Downforce</title>
 
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
 
     <link rel="stylesheet" href="./style/reset.css">
     <link rel="stylesheet" href="./style/modal.css">
@@ -22,16 +22,16 @@
 
         <div id="intro-sheet">
             <p>Airplanes fly using the aerodynamic principle of LIFT.</p>
-            <p>But flip an airplane wing upside down, and you get the opposite effect...</p>
+            <p>Flip an airplane wing upside down, and you get the opposite effect...</p>
             
             <h2>DOWNFORCE</h2>
 
             <h6>A game by Alexandro Strauss</h6>
 
             <div class="social-links">
-                <link href="https://www.linkedin.com/in/alexandro-strauss-942174113/">
+                <a href="https://www.linkedin.com/in/alexandro-strauss-942174113/">
                     <i class="fab fa-linkedin"></i>
-            </link>
+                </a>
  
                 <a href="https://github.com/AlexandroStrauss">
                     <i class="fab fa-github"></i>
@@ -45,16 +45,18 @@
             <p>INSTRUCTIONS</p>
             
             <ul>
-                <li>Use the arrow keys to control your car:</li>
-                <li>Up to accelerate, down to brake, left and right to steer.</li>
+                <li>Drive with the arrow keys:</li>
+                <li><marker>Up</marker> to accelerate, <marker>down</marker> to brake, <marker>left</marker> and <marker>right</marker> to steer.</li>
+                <li>If you crash, press <marker>R</marker> to reset.</li>
             </ul>
               
-            <div id="faster">The faster your car goes, the more DOWNFORCE it has, and the better it will handle. </div>
+            <div id="faster">The faster your car goes, the more <marker>downforce</marker> it generates. 
+                <br>
+                More <marker>downforce</marker> = better handling. </div>
 
             <ul>
-                <li>You have one lap to get up to speed.</li>
-                <li>After that, you have just five laps to set the quickest time you can!</li>
-                <li>If you crash, press R to reset.</li>
+                <!-- <li>You have one lap to get up to speed.</li> -->
+                <li>Set the quickest lap time you can!</li>
             </ul>
 
             <input type="submit" id="continue" value="Continue" />
@@ -62,7 +64,7 @@
 
 
         <div id="race-settings">
-                <p id="top-select">Select a car, track, and camera angle to race.</p>
+                <p id="top-select">RACE SETTINGS</p>
 
                 <p>Select car:</p>
                 <div class="gameSettings">
@@ -75,7 +77,7 @@
                 <div class="gameSettings">
                 
                     <div><input type="radio" name="trackChoice" value="oval">Oval</input></div>
-                    <div><input type="radio" name="trackChoice" value="road">Twisty</input></div>
+                    <div><input type="radio" name="trackChoice" value="road">Twisty (under construction)</input></div>
                 </div>
 
 
