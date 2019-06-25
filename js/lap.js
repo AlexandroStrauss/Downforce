@@ -34,7 +34,7 @@ class Lap {
 
     endLap () {
         this.lapTime();
-        return this.partialTime;
+        return this.partialTimeRaw;
     }
 }
 

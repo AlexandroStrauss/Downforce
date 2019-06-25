@@ -196,11 +196,17 @@ class Race {
         if (this.car.crossingLine(velZ)) {
             this.lastLap = this.lap.endLap();
             var lapRaw = this.lap.partialTimeRaw; 
+            debugger
+            var increment = Math.floor((this.car.model.position.z / velZ) * 16.667)
+            debugger
+            lapRaw += increment
+            this.lastLap += increment
+            debugger
             if (lapRaw < this.bestLapRaw || this.bestLapRaw === null) {
                 this.bestLapRaw = lapRaw
             }
 
-            document.getElementById("lastLap").innerHTML = this.lapCount === 0 ? '' : `Last\n lap:\n ${this.lastLap}`;
+            document.getElementById("lastLap").innerHTML = this.lapCount === 0 ? '' : `Last\n lap:\n ${timeConverter(this.lastLap)}`;
             document.getElementById("bestLap").innerHTML= this.lapCount === 0 ? '' : `Best\n lap:\n ${timeConverter(this.bestLapRaw)}`;
 
             this.lapCount += 1;
