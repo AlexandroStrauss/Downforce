@@ -81,16 +81,16 @@ class Race {
     }
 
     keyDownHandler(e) {
-        if (e.key == "Right" || e.key == "ArrowRight") {
+        if (e.key == "Right" || e.key == "ArrowRight" || e.key == 'd') {
             this.rightPressed = true;
         }
-        else if (e.key == "Left" || e.key == "ArrowLeft") {
+        else if (e.key == "Left" || e.key == "ArrowLeft" || e.key == 'a') {
             this.leftPressed = true;
         }
-        else if (e.key == "Up" || e.key == "ArrowUp") {
+        else if (e.key == "Up" || e.key == "ArrowUp" || e.key == 'w') {
             this.upPressed = true;
         }
-        else if (e.key == "Down" || e.key == "ArrowDown") {
+        else if (e.key == "Down" || e.key == "ArrowDown" || e.key == 's') {
             this.downPressed = true;
         }
 
@@ -120,16 +120,16 @@ class Race {
     }
 
     keyUpHandler(e) {
-        if (e.key == "Right" || e.key == "ArrowRight") {
+        if (e.key == "Right" || e.key == "ArrowRight" || e.key == 'd') {
             this.rightPressed = false;
         }
-        else if (e.key == "Left" || e.key == "ArrowLeft") {
+        else if (e.key == "Left" || e.key == "ArrowLeft" || e.key == 'a') {
             this.leftPressed = false;
         }
-        else if (e.key == "Up" || e.key == "ArrowUp") {
+        else if (e.key == "Up" || e.key == "ArrowUp" || e.key == 'w') {
             this.upPressed = false;
         }
-        else if (e.key == "Down" || e.key == "ArrowDown") {
+        else if (e.key == "Down" || e.key == "ArrowDown" || e.key == 's') {
             this.downPressed = false;
         }
     }
@@ -227,8 +227,13 @@ class Race {
 
         document.getElementById("bestTime").innerHTML = `Your best lap time was ${timeConverter(this.bestLapRaw)}`
 
+        while (this.scene.children.length > 0) {
+            this.scene.remove(this.scene.children[0]);
+        }
+
         document.getElementById("restart").addEventListener('click', () => {
-            location.reload();
+            document.getElementById("loading").style.display = "block";
+            location.reload(true);
         })
     }
 
