@@ -231,6 +231,8 @@ class Race {
             this.scene.remove(this.scene.children[0]);
         }
 
+        this.renderer.forceContextLoss();
+
         document.getElementById("restart").addEventListener('click', () => {
             document.getElementById("loading").style.display = "block";
             location.reload(true);
