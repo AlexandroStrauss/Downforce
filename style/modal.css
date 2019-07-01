@@ -19,6 +19,7 @@
     color: black;
     font-size: 30px;
     background-color: aliceblue;
+    opacity: 0.91;
     width: 60%;
     height: 100%;
     margin: 0 auto;
@@ -168,7 +169,7 @@ ul {
     background-position: center;
     /* image from https://pbs.twimg.com/media/CLzn5zRUsAATPYz.jpg */
     z-index: 10;
-        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 
     font-size: 75px;
     color: white;
@@ -193,9 +194,9 @@ h6 {
 /* temporary for display purposes */
 
 #instructions {
-        padding: 100px 0 0 0;
+    /* padding: 5% 0 0 0; */
 }
 
 #race-settings {
-    padding: 70px 0 0 0;
+    /* padding: 3% 0 0 0; */
 }
