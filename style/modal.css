@@ -41,7 +41,7 @@
 
 #intro-sheet {
     z-index: 5;
-    padding: 150px 0 0 0;
+    padding: 15vh 0 0 0;
 }
 
 #instructions {
@@ -89,7 +89,7 @@ li {
 }
 
 ul {
-    padding: 30px 0 0 0;
+    /* padding: 30px 0 0 0; */
 }
 .gameSettings {
     left: 70px;
@@ -129,7 +129,7 @@ ul {
     /* opacity: 0; */
     z-index: 4;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 50px;
+    font-size: 5.5vh;
     text-align: center;
     color: orangered;
     background-color: aliceblue;
@@ -199,4 +199,10 @@ h6 {
 
 #race-settings {
     /* padding: 3% 0 0 0; */
+}
+
+#coming-soon {
+    color: #606060;
+    font-style: italic;
+    font-size: 24px;
 }
