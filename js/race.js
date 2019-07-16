@@ -260,9 +260,9 @@ class Race {
                 this.camera.rotation.y = 0
                 break;
             default:
-                this.camera.rotation.x = -(Math.PI / 2)
-                this.camera.rotation.z = 0
-                this.camera.rotation.y = 0
+                // this.camera.rotation.x = -(Math.PI / 2)
+                // this.camera.rotation.z = 0
+                // this.camera.rotation.y = 0
         }
         // if (this.cameraChoice === 'first-person') {
         //     this.camera.position.x = car.position.x

@@ -80,13 +80,16 @@ class Car {
 
             camera.position.set(0, 50, 150)
         } else {
-            if (this.boundingBox.children[0]) {
-                this.boundingBox.remove(camera)
-            }
+            //DEVELOPMENT ONLY. COMMENT IN NEXT FIVE LINES WHEN DONE
+            // if (this.boundingBox.children[0]) {
+            //     this.boundingBox.remove(camera)
+            // }
 
-            this.boundingBox.add(camera);
+            // this.boundingBox.add(camera);
 
             camera.position.set(0, 1500, 0)
+
+
             // this.boundingBox.add(camera);
 
             // camera.rotation.x = -1.57
