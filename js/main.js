@@ -22,15 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //DEVELOPMENT ONLY
-        modal.style.display = 'none';
-        intro.style.display = 'none';
-        instructions.style.display = 'none';
-        const race = new Race('birds-eye', 'kroger', 'road');
-        race.start();
+        // modal.style.display = 'none';
+        // intro.style.display = 'none';
+        // instructions.style.display = 'none';
+        // const race = new Race('birds-eye', 'kroger', 'road');
+        // race.start();
 
-    // const closeModal = function(modal) {
-    //     modal.style.display = 'none';
-    // }
+    const closeModal = function(modal) {
+        modal.style.display = 'none';
+    }
     
     clickThrough.addEventListener('click', () => (closeModal(intro)))
     keepGoing.addEventListener('click', () => (closeModal(instructions)))

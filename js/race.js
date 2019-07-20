@@ -36,19 +36,23 @@ class Race {
         this.updateHUD = this.updateHUD.bind(this);
     }
 
+    //start by initializing the scene in Three.js
     start() {
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0xff0000);
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 20000);
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
 
+        //initializes camera controls but makes them unresponsive to the keyboard, allowing for car controls
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableKeys = false;
 
         this.controls.update();
 
+        //load in the geometry necessary to create each track
+        //this also adds all the geometry to a collidableObjects instance var for use later
         this.track.createGeometry(this.scene);
 
         this.car.start(this.scene, this.camera, this.cameraChoice);
@@ -61,7 +65,6 @@ class Race {
         // pointLight.position.set(0, 100, 90);
         // this.scene.add(pointLight);
 
-
         document.addEventListener("keydown", this.keyDownHandler, false);
         document.addEventListener("keyup", this.keyUpHandler, false);
 
@@ -69,6 +72,7 @@ class Race {
 
         this.lap.startLap();
 
+        //the only difference between the black and Kroger cars is whether or not the scene is lit
         if (this.carChoice === 'kroger') {
             var ambientLight = new THREE.AmbientLight(0xccccccc);
             this.scene.add(ambientLight);
@@ -77,6 +81,7 @@ class Race {
         }
     }
 
+    //simple arrow key/WASD controls
     keyDownHandler(e) {
         if (e.key == "Right" || e.key == "ArrowRight" || e.key == 'd') {
             this.rightPressed = true;
@@ -116,6 +121,7 @@ class Race {
         // }
     }
 
+    //the second part of keyboard controls. have to stop inputs when the key is no longer pressed
     keyUpHandler(e) {
         if (e.key == "Right" || e.key == "ArrowRight" || e.key == 'd') {
             this.rightPressed = false;
@@ -131,12 +137,14 @@ class Race {
         }
     }
 
+    //the car's position and angle are updated with every frame in this method
     updatePhysics() {
         var velocity = this.car.velocity;
 
         // approximate downforce for a NASCAR car, assuming 2000lbs at 180mph
         var downforce = .312 * (Math.pow((velocity * .44704), 2))
 
+        //acceleration and deceleration modeled after acceleration curves for a real NASCAR car
         if (this.upPressed && velocity >= 0) {
             var acceleration = (22.7 - (0.0864 * velocity) - (0.0000892 * Math.pow(velocity, 2))) / 60
             velocity += acceleration
@@ -148,8 +156,9 @@ class Race {
         if (this.downPressed && velocity > 0) {
             var deceleration = (-33.6 - 3.12 * Math.log(velocity)) / 60
             velocity += deceleration
-        } else if (this.downPressed && velocity <= 0) {
-            velocity = -5;
+        } else if (this.downPressed && velocity <= 0 && velocity > -50) {
+            var reverseAccel = (-33.6 - 3.12 * Math.log(0.0001 + Math.abs(velocity))) / 180
+            velocity += reverseAccel;
         }
 
         // var angleChange = ((1 / Math.log(Math.abs(velocity))) / 8);
@@ -257,9 +266,9 @@ class Race {
                 this.camera.rotation.y = 0
                 break;
             default:
-                // this.camera.rotation.x = -(Math.PI / 2)
-                // this.camera.rotation.z = 0
-                // this.camera.rotation.y = 0
+                this.camera.rotation.x = -(Math.PI / 2)
+                this.camera.rotation.z = 0
+                this.camera.rotation.y = 0
         }
         // if (this.cameraChoice === 'first-person') {
         //     this.camera.position.x = car.position.x

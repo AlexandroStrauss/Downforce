@@ -62,7 +62,7 @@ class trackTwoGeometry {
         straight2Inside.position.set(2400, 50, -5950)
         straight2Inside.rotation.set(0, 1, 0)
 
-        straight2Outside.position.set (2900, 0, -6350)
+        straight2Outside.position.set (2900, 50, -6350)
         straight2Outside.rotation.set(0, 1, 0)
         this.collidableObjects.push(straight2Inside, straight2Outside)
         
