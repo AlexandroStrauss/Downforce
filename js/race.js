@@ -69,15 +69,12 @@ class Race {
 
         this.lap.startLap();
 
-
         if (this.carChoice === 'kroger') {
             var ambientLight = new THREE.AmbientLight(0xccccccc);
             this.scene.add(ambientLight);
             var pointLight = new THREE.PointLight(0xffffff, 1);
             pointLight.position.set(10, 5, 0);
         }
-
-
     }
 
     keyDownHandler(e) {
@@ -211,7 +208,7 @@ class Race {
             this.lap.startLap();
         }
 
-        if (this.lapCount > this.maxLaps) // altered for testing, should be more
+        if (this.lapCount > this.maxLaps)
         {
             this.endRace();
         }

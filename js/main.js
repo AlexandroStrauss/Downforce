@@ -9,17 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
     var keepGoing = document.getElementById('continue')
     var submit = document.getElementById('submit')
 
-    // const startRace = function(modal1, modal2) {
-    //     var cameraChoice = document.querySelector('input[name="cameraType"]:checked').value;
-    //     var trackChoice = document.querySelector('input[name="trackChoice"]:checked').value;
-    //     var carChoice = document.querySelector('input[name="carChoice"]:checked').value;
-    //     const loading = document.getElementById('loading')
-    //     loading.style.display = 'block';
-    //     modal1.style.display = 'none';
-    //     modal2.style.display = 'none';
-    //     const race = new Race(cameraChoice, carChoice, trackChoice);
-    //     race.start();
-    // }
+    const startRace = function(modal1, modal2) {
+        var cameraChoice = document.querySelector('input[name="cameraType"]:checked').value;
+        var trackChoice = document.querySelector('input[name="trackChoice"]:checked').value;
+        var carChoice = document.querySelector('input[name="carChoice"]:checked').value;
+        const loading = document.getElementById('loading')
+        loading.style.display = 'block';
+        modal1.style.display = 'none';
+        modal2.style.display = 'none';
+        const race = new Race(cameraChoice, carChoice, trackChoice);
+        race.start();
+    }
 
     //DEVELOPMENT ONLY
         modal.style.display = 'none';
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //     modal.style.display = 'none';
     // }
     
-    // clickThrough.addEventListener('click', () => (closeModal(intro)))
-    // keepGoing.addEventListener('click', () => (closeModal(instructions)))
-    // submit.addEventListener('click', () => (startRace(raceSettings, modal)))
+    clickThrough.addEventListener('click', () => (closeModal(intro)))
+    keepGoing.addEventListener('click', () => (closeModal(instructions)))
+    submit.addEventListener('click', () => (startRace(raceSettings, modal)))
 })
