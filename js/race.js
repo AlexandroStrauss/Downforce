@@ -186,13 +186,8 @@ class Race {
         var velZ = velocity * Math.cos(this.car.angle) / 2;
 
         if (collisions(this.car.boundingBox, this.track.collidableObjects)) {
-            if (this.car.model.position.z > 0) {
-                velX = -(velX);
-                velZ = -Math.abs(velZ);
-            } else {
-                velX = -velX;
-                velZ = -velZ;
-            }
+            velX = -velX;
+            velZ = -velZ;
             velocity *= 0.9;
         }
 

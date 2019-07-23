@@ -17,7 +17,7 @@
     display: block;
 
     color: black;
-    font-size: 28px;
+    font-size: 30px;
     background-color: aliceblue;
     opacity: 0.91;
     width: 60%;
@@ -97,6 +97,8 @@ li {
     justify-content: center;
 }
 
+/* the following radio button style settings draw heavily from Angela Velasquez' code pen:
+https://codepen.io/AngelaVelasquez/pen/Eypnq */
 .container {
   display: block;
   position: relative;

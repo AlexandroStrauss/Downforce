@@ -71,7 +71,19 @@ class trackOneGeometry {
         scene.add(outerSphere2)
         outerSphere2.position.set(-740, 0, -1000)
 
-        this.collidableObjects.push(outerSphere, outerSphere2, sphere, sphere2, cylinder, cylinder2, frontstretch, frontstretch2, backstretch, backstretch2)
+        var halfCircleGeometry = new THREE.RingGeometry(1000, 1100, 32, 64, 0, Math.PI);
+        var material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+        var halfCircle = new THREE.Mesh(halfCircleGeometry, material);
+        scene.add(halfCircle);
+        halfCircle.rotation.set(1.5 * Math.PI, 0, 0);
+        halfCircle.position.set(-740, 0, -1000);
+
+        var secondHalfCircle = new THREE.Mesh(halfCircleGeometry, material);
+        scene.add(secondHalfCircle);
+        secondHalfCircle.rotation.set(Math.PI / 2, 0, 0)
+        secondHalfCircle.position.set(-740, 0, 1350)
+
+        this.collidableObjects.push(sphere, sphere2, outerSphere, outerSphere2, cylinder, cylinder2, frontstretch, frontstretch2, backstretch, backstretch2, halfCircle, secondHalfCircle)
     }
 }
 
