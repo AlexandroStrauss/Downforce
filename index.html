@@ -70,26 +70,57 @@
 
                 <p>Select car:</p>
                 <div class="gameSettings">
-
-                    <div><input type="radio" name="carChoice" value="kroger">#47 A.J. Allmendinger Kroger ClickList Camaro</input></div>
-                    <div><input type="radio" name="carChoice" value="black">#NaN Unmarked Black Camaro</input></div>                
+                    <div class="container">
+                        <input type="radio" name="carChoice" value="kroger" name="kroger" checked="checked">
+                        <span class="checkmark"></span>
+                        <label for="kroger">#47 A.J. Allmendinger Kroger ClickList Camaro</label>
+                    </div>
+                    
+                    
+                    <div class="container">
+                        <input type="radio" name="carChoice" value="black" name="black">
+                        <span class="checkmark"></span>
+                        <label for="black">#NaN Driver=Undefined Unmarked Black Camaro</label>
+                    </div>                
                 </div>
 
                 <p>Select track:</p>
                 <div class="gameSettings">
-                
-                    <div><input type="radio" name="trackChoice" value="oval">Oval</input></div>
-                    <div><input type="radio" name="trackChoice" value="road">Twisty</input></div>
-                    <!-- <div id="coming-soon">Second track coming soon!</div> -->
+                    <div class="container">
+                        <input type="radio" name="trackChoice" value="oval" name="oval" checked="checked">
+                        <span class="checkmark"></span>
+                        <label for="oval">Oval</label>
+                    </div>
+                    
+                    
+                    <div class="container">
+                        <input type="radio" name="trackChoice" value="road" name="road">
+                        <span class="checkmark"></span>
+                        <label for="road">Twisty</label>
+                    </div>
                 </div>
 
 
                 <p>Select camera angle:</p>
                 <div class="gameSettings">
 
-                    <div><input type="radio" name="cameraType" value="third-person">Chase Camera</input></div>
-                    <div><input type="radio" name="cameraType" value="first-person">In-Car Camera</input></div>
-                    <div><input type="radio" name="cameraType" value="birds-eye">Overhead Camera</input></div>
+                    <div class="container">
+                        <input type="radio" name="cameraType" value="third-person" name="third-person" checked="checked">
+                        <span class="checkmark"></span>
+                        <label for="third-person">Chase Camera</label>
+                    </div>
+
+                    <div class="container">
+                        <input type="radio" name="cameraType" value="first-person" name="first-person">
+                        <span class="checkmark"></span>
+                        <label for="first-person">In-Car Camera</label>
+                    </div>
+
+                    <div class="container">
+                        <input type="radio" name="cameraType" value="birds-eye" name="birds-eye">
+                        <span class="checkmark"></span>
+                        <label for="birds-eye">Overhead Camera</label>
+                    </div>
                 </div>
                 
                 <input type="submit" id="submit" value="Start Race" />

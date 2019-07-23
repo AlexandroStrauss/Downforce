@@ -17,7 +17,7 @@
     display: block;
 
     color: black;
-    font-size: 30px;
+    font-size: 28px;
     background-color: aliceblue;
     opacity: 0.91;
     width: 60%;
@@ -80,17 +80,15 @@ h2 {
 }
 
 div p {
-    padding: 30px 0 0 0;
+    padding: 20px 0 0 0;
     margin-block-start: 0;
+    margin: 0 0 2.3vh 0;
 }
 
 li {
     font-size: 30px;
 }
 
-ul {
-    /* padding: 30px 0 0 0; */
-}
 .gameSettings {
     left: 70px;
     display: flex;
@@ -99,13 +97,88 @@ ul {
     justify-content: center;
 }
 
-.gameSettings div {
-        display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.25s linear;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
+
+.container input[type=radio]{
+    position: absolute;
+    left: -24px;
+    z-index: 6;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.checkmark {
+    display: block;
+    position: absolute;
+    border: 5px solid #AAAAAA;
+    border-radius: 100%;
+    height: 25px;
+    width: 25px;
+    left: -8px;
+    /* z-index: 5; */
+    transition: border .25s linear;
+    -webkit-transition: border .25s linear;
+}
+
+.container:hover input ~ .checkmark {
+    background-color: #ffffff;
+    border: 5px solid #2196F3;
+}
+
+input[type=radio]:checked ~ .checkmark {
+  /* background-color: #2196F3; */
+  background-color: #ffffff;
+}
+
+input[type=radio]:checked ~ .checkmark::before{
+  background: #2196F3;
+}
+
+.checkmark::before {
+    display: block;
+    position: absolute;
+	content: '';
+    border-radius: 100%;
+    height: 15px;
+    width: 15px;
+    top: 5px;
+	left: 5px;
+    margin: auto;
+	transition: background 0.25s linear;
+    -webkit-transition: background 0.25s linear;
+}
+
+input[type=radio]:checked ~ .checkmark {
+  border: 5px solid #2196F3;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+input[type=radio]:checked ~ label{
+  color: #2196F3;
+}
+
 
 #submit, #continue, #click-through, #restart {
     border: 2px solid orangered;
@@ -133,7 +206,6 @@ ul {
     text-align: center;
     color: orangered;
     background-color: aliceblue;
-
 }
 
 #race-end p {
@@ -151,12 +223,11 @@ ul {
 }
 
 #submit:hover, #continue:hover, #click-through:hover {
-    /* background-color: greenyellow; */
+    background-color: #EEE;
 }
 
 #submit:focus, #continue:focus, #click-through:focus {
     background-image: url('../checkered_flag.jpg');
-
 }
 
 #loading {
