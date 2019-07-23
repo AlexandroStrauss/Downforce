@@ -16,6 +16,8 @@ class Car {
     }
 
     start (scene, camera, cameraType) {
+
+        //load the car model; only when that's done, remove the loading modal and allow the player to start
         var loader = new GLTFLoader();
         function modelLoad(gltf) {
             this.model = gltf.scene;
@@ -42,6 +44,9 @@ class Car {
         // this.carSounds();
     }
 
+    //creates an invisible box with the same dimensions as the car model
+    //and which always moves with the car model
+    //providing a much simpler object to use for calculating collision detection
     createBoundingBox(scene, camera, cameraType) {
         var bound_geometry = new THREE.BoxGeometry(50, 50, 150);
         this.boundingBox = new THREE.Mesh(
@@ -80,7 +85,7 @@ class Car {
 
             camera.position.set(0, 50, 150)
         } else {
-            //DEVELOPMENT ONLY. COMMENT IN NEXT FIVE LINES WHEN DONE
+            //DEVELOPMENT ONLY: comment out the next five lines for a free camera
             if (this.boundingBox.children[0]) {
                 this.boundingBox.remove(camera)
             }
@@ -99,6 +104,7 @@ class Car {
 
     }
 
+    //work-in-progress on basic engine sounds
     carSounds() {
         var AudioContext = window.AudioContext || window.webkitAudioContext;
         var audioCtx = new AudioContext();
@@ -113,6 +119,7 @@ class Car {
         sound.play();
     }
 
+    //if you press the reset button, it's handled here
     reset() {
         this.model.position.set(0, 0, 0);
         this.model.rotation.set(0, 0, 0);
@@ -122,6 +129,7 @@ class Car {
         this.angle = 0;
     }
 
+    //work-in-progress on a 3D HUD rendered behind the car
     drawHUD(scene) {
         // var speedReadout = Math.floor(this.velocity) + " MPH"
         // var downforceReadout = Math.floor(this.downforce) + " lbs"

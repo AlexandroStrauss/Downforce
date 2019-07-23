@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         race.start();
     }
 
-    //DEVELOPMENT ONLY
+    //DEVELOPMENT ONLY – if you want to add a new track, comment everything else out
+    //and use this to get an overhead view with a free camera and need to click through the intro screens
         // modal.style.display = 'none';
         // intro.style.display = 'none';
         // instructions.style.display = 'none';

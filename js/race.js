@@ -161,7 +161,8 @@ class Race {
             velocity += reverseAccel;
         }
 
-        // var angleChange = ((1 / Math.log(Math.abs(velocity))) / 8);
+        //the specific equation here isn't based on any real-world math
+        //rather, it's what I've found feels good to control
         var angleChange = Math.log10((downforce ** 2) + 1) / 384
 
         if (this.leftPressed) {
@@ -176,6 +177,7 @@ class Race {
             this.car.boundingBox.rotation.y -= angleChange;
         }
 
+        //car coasts if you're neither accelerating nor braking
         if (!this.upPressed && !this.downPressed) {
             velocity *= 0.999;
         }
@@ -185,15 +187,19 @@ class Race {
         var velX = velocity * Math.sin(this.car.angle) / 2;
         var velZ = velocity * Math.cos(this.car.angle) / 2;
 
+        //if any collision with the Track object's array of collidableObjects is detected,
+        //the car's direction is reversed, keeping it inside the track,
+        //and its speed is dramatically reduced
         if (collisions(this.car.boundingBox, this.track.collidableObjects)) {
             velX = -velX;
             velZ = -velZ;
             velocity *= 0.9;
         }
 
-        this.car.velocity = velocity;
-        this.car.downforce = .312 * (Math.pow((velocity * .44704), 2))
-
+        //crossingLine calculates whether the car's position will change in the next animation frame
+        //such that it will cross the start/finish line. 
+        //if so, end the current lap and check to see if it's better than the best time in this session 
+        //and if the lap limit is reached, end the race
         if (this.car.crossingLine(velZ)) {
             this.lastLap = this.lap.endLap();
             var lapRaw = this.lap.partialTimeRaw; 
@@ -212,16 +218,14 @@ class Race {
             this.lap.startLap();
         }
 
-        if (this.lapCount > this.maxLaps)
-        {
-            this.endRace();
-        }
+        if (this.lapCount > this.maxLaps) { this.endRace(); }
 
         this.car.updatePosition(velX, velZ);
-
         this.updateHUD();
     }
 
+    //on race end, pull up a modal showing the player's best time in the session & giving them option to try again
+    //to avoid a serious memory leak, the entire scene is deleted 
     endRace () {
         const end = document.getElementById("race-end")
         end.style.display = 'block';
@@ -240,6 +244,7 @@ class Race {
         })
     }
 
+    //with every frame, up-to-date speed and timing information is injected into these HTML elements
     updateHUD () {
         this.lap.lapTime();
         document.getElementById("currLap").innerHTML = this.lapCount === 0 ? '' :`Current\n lap:\n ${this.lap.partialTime}`
@@ -248,6 +253,7 @@ class Race {
         document.getElementById("lapCount").innerHTML = this.lapCount === 0? "Warm-up lap" : `Lap ${this.lapCount}/${this.maxLaps}`
     }
 
+    //the camera has to follow the car and keep the right rotation; that's done here
     updateCamera() {
         switch(this.cameraChoice) {
             case 'first-person':
@@ -288,6 +294,7 @@ class Race {
         // }
     }
 
+    //animates every frame, calling all the other methods in Race in turn
     animate() {
         requestAnimationFrame(this.animate);
 
