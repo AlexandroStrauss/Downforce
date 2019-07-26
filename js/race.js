@@ -196,6 +196,8 @@ class Race {
             velocity *= 0.9;
         }
 
+        this.car.velocity = velocity;
+
         //crossingLine calculates whether the car's position will change in the next animation frame
         //such that it will cross the start/finish line. 
         //if so, end the current lap and check to see if it's better than the best time in this session 
