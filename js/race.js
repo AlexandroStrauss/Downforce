@@ -196,7 +196,13 @@ class Race {
             velocity *= 0.9;
         }
 
+        //THESE LINES ARE IMPORTANT! They pass the updated values back to the Car object
+        //so that calculations can be done with them on the next frame
+        //take the first line out and the car will not move
+        //take the second line out and the downforce readout will stay at 0
+        //I know this from experience
         this.car.velocity = velocity;
+        this.car.downforce = downforce;
 
         //crossingLine calculates whether the car's position will change in the next animation frame
         //such that it will cross the start/finish line. 
