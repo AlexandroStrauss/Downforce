@@ -4,6 +4,26 @@
 <head>
     <title>Downforce</title>
 
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-database.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        // var firebaseConfig = {
+        //     apiKey: "AIzaSyA3m2PUM-JFwnef8vC69DsfTKx_n7snVLc",
+        //     authDomain: "downforce-5f3bd.firebaseapp.com",
+        //     databaseURL: "https://downforce-5f3bd.firebaseio.com",
+        //     projectId: "downforce-5f3bd",
+        //     storageBucket: "",
+        //     messagingSenderId: "531305749148",
+        //     appId: "1:531305749148:web:71b0fce0c1679346"
+        // };
+        // // Initialize Firebase
+        // firebase.initializeApp(firebaseConfig);
+    </script>
+
+
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
 
@@ -12,7 +32,7 @@
     <link rel="stylesheet" href="./style/reset.css">
     <link rel="stylesheet" href="./style/modal.css">
     <link rel="stylesheet" href="./style/hud.css">
-
+    <script src=></script>
 </head>
 
 <body>
@@ -63,7 +83,6 @@
 
             <input type="submit" id="continue" value="Continue" />
         </div>
-
 
         <div id="race-settings">
                 <p id="top-select">RACE SETTINGS</p>
@@ -122,14 +141,11 @@
                 
                 <input type="submit" id="submit" value="Start Race" />
         </div>
-
-
     </div>
 
     <div id="loading">
         <p>Loading...</p>
     </div>
-
 
     <div class="outerHUD">
 
@@ -170,6 +186,25 @@
         </div>
 
         <input type="submit" id="restart" value="Race Again" />
+        <input type="text" id="save-name" placeholder="Enter Your Name" />
+        <input type="submit" id="save-best-lap" value="Save Your Best Lap" />
+    </div>
+
+    <div id="name-warning">
+        <div>Name must not be blank!</div>
+
+        
+        <input type="submit" id="okay" value="Okay" />
+    </div>
+        
+
+    <div id="leaderboard">
+        <p>Global leaderboard</p>
+        <ul id="best-times">
+
+        </ul>
+
+        <input type="submit" id="ldr-restart" value="Race Again" />
     </div>
 
 </body>

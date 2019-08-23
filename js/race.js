@@ -10,6 +10,7 @@ import timeConverter from './timeConverter';
 class Race {
     constructor(cameraChoice, carChoice, trackChoice) {
         this.car = new Car();
+        this.trackChoice = trackChoice;
         this.track = trackChoice === 'oval' ? new trackOneGeometry() : new trackTwoGeometry();
         this.scene = null;
         this.cameraChoice = cameraChoice;
@@ -177,7 +178,7 @@ class Race {
             this.car.boundingBox.rotation.y -= angleChange;
         }
 
-        //car coasts if you're neither accelerating nor braking
+        //car coasts to a stop if you're neither accelerating nor braking
         if (!this.upPressed && !this.downPressed) {
             velocity *= 0.999;
         }
@@ -250,6 +251,62 @@ class Race {
             document.getElementById("loading").style.display = "block";
             location.reload(true);
         })
+
+        document.getElementById("save-best-lap").addEventListener('click', () => {
+            if (document.getElementById("save-name").value === "") {
+                document.getElementById("name-warning").style.display = "flex";
+                document.getElementById("okay").addEventListener('click', () => {
+                    document.getElementById("name-warning").style.display = "none";
+                })
+            } else {
+                const firebaseConfig = {
+                    apiKey: "AIzaSyA3m2PUM-JFwnef8vC69DsfTKx_n7snVLc",
+                    authDomain: "downforce-5f3bd.firebaseapp.com",
+                    databaseURL: "https://downforce-5f3bd.firebaseio.com",
+                    projectId: "downforce-5f3bd",
+                    storageBucket: "downforce-5f3bd.appspot.com",
+                    messagingSenderId: "531305749148",
+                    appId: "1:531305749148:web:71b0fce0c1679346"
+                };
+
+                // Initialize Firebase
+                firebase.initializeApp(firebaseConfig);
+
+                var leaderboard = firebase.database().ref();
+                // .ref(`${this.trackChoice}_times/`);
+                var newEntry = leaderboard.push();
+                newEntry.set({
+                    name: document.getElementById("save-name").value,
+                    laptime: this.bestLapRaw,
+
+                })
+
+                debugger
+
+                this.displayLeaderboard();
+            }
+        })
+    }
+
+    displayLeaderboard () {
+        document.getElementById("leaderboard").style.display = "block"
+
+        document.getElementById("ldr-restart").addEventListener('click', () => {
+            document.getElementById("loading").style.display = "block";
+            location.reload(true);
+        })
+
+        // document.getElementById("best-times").innerHTML = 
+    }
+
+    assembleLeaderboard () {
+        var database = firebase.database();
+
+        // return <li> 
+        //     <div>{number}</div>
+        //     <div>{name}</div>
+        //     <div>{timeConverter(besttime)}</div>
+        // </li>
     }
 
     //with every frame, up-to-date speed and timing information is injected into these HTML elements
