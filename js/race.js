@@ -58,14 +58,6 @@ class Race {
 
         this.car.start(this.scene, this.camera, this.cameraChoice);
 
-        // var dirLight = new THREE.DirectionalLight(0xffffff, 0.125);
-        // dirLight.position.set(0, 0, 1).normalize();
-        // this.scene.add(dirLight);
-
-        // var pointLight = new THREE.PointLight(0xffffff, 1.5);
-        // pointLight.position.set(0, 100, 90);
-        // this.scene.add(pointLight);
-
         document.addEventListener("keydown", this.keyDownHandler, false);
         document.addEventListener("keyup", this.keyUpHandler, false);
 
@@ -145,7 +137,7 @@ class Race {
         // approximate downforce for a NASCAR car, assuming 2000lbs at 180mph
         var downforce = .312 * (Math.pow((velocity * .44704), 2))
 
-        //acceleration and deceleration modeled after acceleration curves for a real NASCAR car
+        // acceleration and deceleration modeled after acceleration curves for a real NASCAR car
         if (this.upPressed && velocity >= 0) {
             var acceleration = (22.7 - (0.0864 * velocity) - (0.0000892 * Math.pow(velocity, 2))) / 60
             velocity += acceleration
@@ -183,14 +175,13 @@ class Race {
             velocity *= 0.999;
         }
 
-        // these are swapped because of the starting direction of the car.
-        // X should be calculated from cosine, Z from sine
+        // Update the position of the car on the XZ-plane, multiplying its velocity in accordance with its current angle.
+        // And they said I'd never need trigonometry again after ninth grade! 
         var velX = velocity * Math.sin(this.car.angle) / 2;
         var velZ = velocity * Math.cos(this.car.angle) / 2;
 
-        //if any collision with the Track object's array of collidableObjects is detected,
-        //the car's direction is reversed, keeping it inside the track,
-        //and its speed is dramatically reduced
+        // If any collision with the Track object's array of collidableObjects is detected,
+        // the car's direction is reversed, keeping it inside the track, and its speed is dramatically reduced
         if (collisions(this.car.boundingBox, this.track.collidableObjects)) {
             velX = -velX;
             velZ = -velZ;
@@ -234,25 +225,28 @@ class Race {
     }
 
     //on race end, pull up a modal showing the player's best time in the session & giving them option to try again
-    //to avoid a serious memory leak, the entire scene is deleted 
     endRace () {
         const end = document.getElementById("race-end")
         end.style.display = 'block';
 
         document.getElementById("bestTime").innerHTML = `Your best lap time was ${timeConverter(this.bestLapRaw)}`
 
+        //to avoid a serious memory leak, the entire scene is deleted 
         while (this.scene.children.length > 0) {
             this.scene.remove(this.scene.children[0]);
         }
 
         this.renderer.forceContextLoss();
 
+        //the player can restart the game right away, or enter their time in the global leaderboard
         document.getElementById("restart").addEventListener('click', () => {
             document.getElementById("loading").style.display = "block";
             location.reload(true);
         })
 
         document.getElementById("save-best-lap").addEventListener('click', () => {
+            //The player must enter a name to save their time.
+            //If they don't, a warning pops up.
             if (document.getElementById("save-name").value === "") {
                 document.getElementById("name-warning").style.display = "flex";
                 document.getElementById("okay").addEventListener('click', () => {
@@ -269,10 +263,16 @@ class Race {
                     appId: "1:531305749148:web:71b0fce0c1679346"
                 };
 
+                const firebaseApp = window.firebase.app;
+                const firebaseAuth = window.firebase.auth;
+                const firebaseDB = window.firebase.database;
+
+                debugger
+
                 // Initialize Firebase
                 firebase.initializeApp(firebaseConfig);
 
-                var leaderboard = firebase.database().ref();
+                var leaderboard = firebaseDB().ref(`${this.trackChoice}_times/`);
                 // .ref(`${this.trackChoice}_times/`);
                 var newEntry = leaderboard.push();
                 newEntry.set({
@@ -359,7 +359,7 @@ class Race {
         // }
     }
 
-    //animates every frame, calling all the other methods in Race in turn
+    //animates every frame, calling all the other methods in race.js in turn
     animate() {
         requestAnimationFrame(this.animate);
 
@@ -367,6 +367,7 @@ class Race {
 
         this.updatePhysics();
 
+        // This will have no effect until I return to implementing the fancy 3D HUD
         switch (this.cameraChoice) {
             case 'third-person':
                 this.car.drawHUD();
