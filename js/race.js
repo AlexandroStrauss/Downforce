@@ -6,6 +6,7 @@ import collisions from './collisions';
 import Lap from './lap';
 import trackTwoGeometry from './trackTwoGeometry';
 import timeConverter from './timeConverter';
+// import * as firebase from "../node_modules/firebase/app";
 
 class Race {
     constructor(cameraChoice, carChoice, trackChoice) {
@@ -24,6 +25,7 @@ class Race {
         this.lap = new Lap();
         this.lapCount = 0;
         this.maxLaps = this.track.maxLaps;
+        this.animation = null;
 
         this.rightPressed = false;
         this.leftPressed = false;
@@ -226,6 +228,7 @@ class Race {
 
     //on race end, pull up a modal showing the player's best time in the session & giving them option to try again
     endRace () {
+        window.cancelAnimationFrame(this.animation);
         const end = document.getElementById("race-end")
         end.style.display = 'block';
 
@@ -263,25 +266,18 @@ class Race {
                     appId: "1:531305749148:web:71b0fce0c1679346"
                 };
 
-                const firebaseApp = window.firebase.app;
-                const firebaseAuth = window.firebase.auth;
-                const firebaseDB = window.firebase.database;
-
-                debugger
-
                 // Initialize Firebase
                 firebase.initializeApp(firebaseConfig);
 
-                var leaderboard = firebaseDB().ref(`${this.trackChoice}_times/`);
+
+                var leaderboard = firebase.database().ref(`${this.trackChoice}_times/`);
                 // .ref(`${this.trackChoice}_times/`);
                 var newEntry = leaderboard.push();
                 newEntry.set({
                     name: document.getElementById("save-name").value,
                     laptime: this.bestLapRaw,
+                }).then(res => console.log(res));
 
-                })
-
-                debugger
 
                 this.displayLeaderboard();
             }
@@ -289,6 +285,8 @@ class Race {
     }
 
     displayLeaderboard () {
+        // this.assembleLeaderboard();
+
         document.getElementById("leaderboard").style.display = "block"
 
         document.getElementById("ldr-restart").addEventListener('click', () => {
@@ -300,7 +298,19 @@ class Race {
     }
 
     assembleLeaderboard () {
-        var database = firebase.database();
+        // var database = firebase.database();
+
+        var database = firebase.database().ref(`${this.trackChoice}_times/`);
+        let topTen = database.orderBy('time').limit(10);
+
+        debugger
+        // let leaderboard = topTen.map (lap => {
+        //         <li>
+        //             <div>1</div>
+        //             <div>lap.name</div>
+        //             <div>lap.time</div>
+        //         </li>
+        // })
 
         // return <li> 
         //     <div>{number}</div>
@@ -361,7 +371,7 @@ class Race {
 
     //animates every frame, calling all the other methods in race.js in turn
     animate() {
-        requestAnimationFrame(this.animate);
+        this.animation = requestAnimationFrame(this.animate);
 
         this.car.removeHUD();
 
