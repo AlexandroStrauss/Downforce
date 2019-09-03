@@ -306,8 +306,8 @@ class Race {
         var bestLap = this.bestLapRaw;
 
         database.orderByChild('laptime').limitToFirst(10).on("value", function (snap) {
-            var scores = Object.values(snap.val());
-            scores.forEach(score => {
+            snap.forEach(function(child) {
+                var score = child.val();
                 if (score.laptime === bestLap && score.name === document.getElementById("save-name").value) {
                     document.getElementById("best-times").innerHTML += "<li id='color-this'>" + "<div>" + i + "</div>" + "<div>" + score.name + "</div>" + "<div>" + timeConverter(score.laptime) + "</div>" + "</li>"
                 } else {
