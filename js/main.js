@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // modal.style.display = 'none';
         // intro.style.display = 'none';
         // instructions.style.display = 'none';
-        // const race = new Race('birds-eye', 'kroger', 'road');
+        // const race = new Race('birds-eye', 'kroger', 'Twisty');
         // race.start();
 
     const closeModal = function(modal) {

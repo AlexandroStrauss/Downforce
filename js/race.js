@@ -12,7 +12,7 @@ class Race {
     constructor(cameraChoice, carChoice, trackChoice) {
         this.car = new Car();
         this.trackChoice = trackChoice;
-        this.track = trackChoice === 'oval' ? new trackOneGeometry() : new trackTwoGeometry();
+        this.track = trackChoice === 'Oval' ? new trackOneGeometry() : new trackTwoGeometry();
         this.scene = null;
         this.cameraChoice = cameraChoice;
         this.carChoice = carChoice;
@@ -269,15 +269,15 @@ class Race {
                 // Initialize Firebase
                 firebase.initializeApp(firebaseConfig);
 
+                // var store = firebase.firestore();
+
 
                 var leaderboard = firebase.database().ref(`${this.trackChoice}_times/`);
-                // .ref(`${this.trackChoice}_times/`);
                 var newEntry = leaderboard.push();
                 newEntry.set({
                     name: document.getElementById("save-name").value,
                     laptime: this.bestLapRaw,
                 }).then(res => console.log(res));
-
 
                 this.displayLeaderboard();
             }
@@ -285,9 +285,10 @@ class Race {
     }
 
     displayLeaderboard () {
-        // this.assembleLeaderboard();
+        this.assembleLeaderboard();
 
         document.getElementById("leaderboard").style.display = "block"
+        document.getElementById("leaderboard-title").innerHTML = "Global Leaderboard: " + this.trackChoice + " Track"
 
         document.getElementById("ldr-restart").addEventListener('click', () => {
             document.getElementById("loading").style.display = "block";
@@ -300,23 +301,23 @@ class Race {
     assembleLeaderboard () {
         // var database = firebase.database();
 
+        let i = 1;
         var database = firebase.database().ref(`${this.trackChoice}_times/`);
-        let topTen = database.orderBy('time').limit(10);
+        // database.orderByChild('laptime').limitToFirst(10).on("child_added", function (snap) {
+        //     debugger
+        //     var score = snap.val();
+        //     document.getElementById("best-times").innerHTML += "<li>" + "<div>" + i + "</div>" + "<div>" + score.name + "</div>" + "<div>" + timeConverter(score.laptime) + "</div>" + "</li>"
+        //     i += 1;
+        // });
 
-        debugger
-        // let leaderboard = topTen.map (lap => {
-        //         <li>
-        //             <div>1</div>
-        //             <div>lap.name</div>
-        //             <div>lap.time</div>
-        //         </li>
-        // })
+        database.orderByChild('laptime').limitToFirst(10).on("value", function (snap) {
+            var scores = Object.values(snap.val());
+            scores.forEach(score => {
+                document.getElementById("best-times").innerHTML += "<li>" + "<div>" + i + "</div>" + "<div>" + score.name + "</div>" + "<div>" + timeConverter(score.laptime) + "</div>" + "</li>"
+                i += 1;
+            })
+        });
 
-        // return <li> 
-        //     <div>{number}</div>
-        //     <div>{name}</div>
-        //     <div>{timeConverter(besttime)}</div>
-        // </li>
     }
 
     //with every frame, up-to-date speed and timing information is injected into these HTML elements

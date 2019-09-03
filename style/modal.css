@@ -302,3 +302,10 @@ h6 {
     border: 3px solid orangered;
     border-radius: 5px;
 }
+
+#best-times li {
+    padding: 0px 75px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

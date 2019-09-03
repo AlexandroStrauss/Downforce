@@ -7,6 +7,7 @@
     <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-app.js"></script> 
     <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-database.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-firestore.js"></script>
 
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
@@ -89,15 +90,15 @@
                 <p>Select track:</p>
                 <div class="gameSettings">
                     <div class="container">
-                        <input type="radio" name="trackChoice" value="oval" name="oval" checked="checked">
+                        <input type="radio" name="trackChoice" value="Oval" name="Oval" checked="checked">
                         <span class="checkmark"></span>
-                        <label for="oval">Oval</label>
+                        <label for="Oval">Oval</label>
                     </div>
                     
                     <div class="container">
-                        <input type="radio" name="trackChoice" value="road" name="road">
+                        <input type="radio" name="trackChoice" value="Twisty" name="Twisty">
                         <span class="checkmark"></span>
-                        <label for="road">Twisty</label>
+                        <label for="Twisty">Twisty</label>
                     </div>
                 </div>
 
@@ -183,7 +184,7 @@
         
 
     <div id="leaderboard">
-        <p>Global leaderboard</p>
+        <p id="leaderboard-title"></p>
         <ul id="best-times">
 
         </ul>
