@@ -4,6 +4,7 @@
   "description": "## Background and overview",
   "main": "webpack.config.js",
   "dependencies": {
+    "firebase": "^6.4.2",
     "howler": "^2.1.2",
     "three": "^0.105.2",
     "three-gltf-loader": "^1.105.0",
@@ -14,7 +15,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack --watch --mode=development", 
+    "webpack": "webpack --watch --mode=development",
     "start": "http-server . -p 8000"
   },
   "repository": {

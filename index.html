@@ -4,6 +4,11 @@
 <head>
     <title>Downforce</title>
 
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-app.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-database.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-firestore.js"></script>
+
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
 
@@ -64,7 +69,6 @@
             <input type="submit" id="continue" value="Continue" />
         </div>
 
-
         <div id="race-settings">
                 <p id="top-select">RACE SETTINGS</p>
 
@@ -86,15 +90,15 @@
                 <p>Select track:</p>
                 <div class="gameSettings">
                     <div class="container">
-                        <input type="radio" name="trackChoice" value="oval" name="oval" checked="checked">
+                        <input type="radio" name="trackChoice" value="Oval" name="Oval" checked="checked">
                         <span class="checkmark"></span>
-                        <label for="oval">Oval</label>
+                        <label for="Oval">Oval</label>
                     </div>
                     
                     <div class="container">
-                        <input type="radio" name="trackChoice" value="road" name="road">
+                        <input type="radio" name="trackChoice" value="Twisty" name="Twisty">
                         <span class="checkmark"></span>
-                        <label for="road">Twisty</label>
+                        <label for="Twisty">Twisty</label>
                     </div>
                 </div>
 
@@ -122,14 +126,11 @@
                 
                 <input type="submit" id="submit" value="Start Race" />
         </div>
-
-
     </div>
 
     <div id="loading">
         <p>Loading...</p>
     </div>
-
 
     <div class="outerHUD">
 
@@ -170,6 +171,25 @@
         </div>
 
         <input type="submit" id="restart" value="Race Again" />
+        <input type="text" id="save-name" placeholder="Enter Your Name" />
+        <input type="submit" id="save-best-lap" value="Save Your Best Lap" />
+    </div>
+
+    <div id="name-warning">
+        <div>Name must not be blank!</div>
+
+        
+        <input type="submit" id="okay" value="Okay" />
+    </div>
+        
+
+    <div id="leaderboard">
+        <p id="leaderboard-title"></p>
+        <ul id="best-times">
+
+        </ul>
+
+        <input type="submit" id="ldr-restart" value="Race Again" />
     </div>
 
 </body>
