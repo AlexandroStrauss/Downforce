@@ -303,17 +303,16 @@ class Race {
 
         let i = 1;
         var database = firebase.database().ref(`${this.trackChoice}_times/`);
-        // database.orderByChild('laptime').limitToFirst(10).on("child_added", function (snap) {
-        //     debugger
-        //     var score = snap.val();
-        //     document.getElementById("best-times").innerHTML += "<li>" + "<div>" + i + "</div>" + "<div>" + score.name + "</div>" + "<div>" + timeConverter(score.laptime) + "</div>" + "</li>"
-        //     i += 1;
-        // });
+        var bestLap = this.bestLapRaw;
 
         database.orderByChild('laptime').limitToFirst(10).on("value", function (snap) {
             var scores = Object.values(snap.val());
             scores.forEach(score => {
-                document.getElementById("best-times").innerHTML += "<li>" + "<div>" + i + "</div>" + "<div>" + score.name + "</div>" + "<div>" + timeConverter(score.laptime) + "</div>" + "</li>"
+                if (score.laptime === bestLap && score.name === document.getElementById("save-name").value) {
+                    document.getElementById("best-times").innerHTML += "<li id='color-this'>" + "<div>" + i + "</div>" + "<div>" + score.name + "</div>" + "<div>" + timeConverter(score.laptime) + "</div>" + "</li>"
+                } else {
+                    document.getElementById("best-times").innerHTML += "<li>" + "<div>" + i + "</div>" + "<div>" + score.name + "</div>" + "<div>" + timeConverter(score.laptime) + "</div>" + "</li>"
+                }
                 i += 1;
             })
         });
