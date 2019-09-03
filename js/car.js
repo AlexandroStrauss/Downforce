@@ -58,34 +58,51 @@ class Car {
         this.boundingBox.material.opacity = 0;
 
         if (this.model) {
-            this.boundingBox.position = this.model.position;
-            this.boundingBox.rotation = this.model.rotation;
+            let x = this.model.position.x;
+            let y = this.model.position.y;
+            let z = this.model.position.z;
+
+            this.boundingBox.position.set(x, y, z);
+
+            let xrot = this.model.rotation.x;
+            let yrot = this.model.rotation.y;
+            let zrot = this.model.rotation.z;
+            this.boundingBox.rotation.set(xrot, yrot, zrot);
         }
 
         //unsuccessful attempt to allow for real-time camera controls
         if (cameraType === "first-person") {
+
             if(this.boundingBox.children[0]) {
                 this.boundingBox.remove(camera)
             }
 
             this.boundingBox.add(camera);
 
+            // camera.position.x = this.boundingBox.position.x - 10
+            // camera.position.y = this.boundingBox.position.y + 40
+            // camera.position.z = this.boundingBox.position.z
             camera.position.set(-10, 40, 0)
 
             camera.rotation.x = 0
             camera.rotation.z = 0
             camera.rotation.y = 0
 
-        } else if (cameraType === "third-person") {
+        } else if (cameraType === "third-person") {  
             if (this.boundingBox.children[0]) {
                 this.boundingBox.remove(camera)
             }
 
             this.boundingBox.add(camera);
 
+            // camera.position.x = this.boundingBox.position.x
+            // camera.position.y = this.boundingBox.position.y + 50
+            // camera.position.z = this.boundingBox.position.z + 150
+
             camera.position.set(0, 50, 150)
         } else {
-            //DEVELOPMENT ONLY: comment out the next five lines for a free camera
+
+            //DEVELOPMENT TIP: comment out the next five lines to have full control over the camera
             if (this.boundingBox.children[0]) {
                 this.boundingBox.remove(camera)
             }
@@ -93,7 +110,6 @@ class Car {
             this.boundingBox.add(camera);
 
             camera.position.set(0, 1500, 0)
-
 
             // this.boundingBox.add(camera);
 

@@ -6,7 +6,6 @@ import collisions from './collisions';
 import Lap from './lap';
 import trackTwoGeometry from './trackTwoGeometry';
 import timeConverter from './timeConverter';
-// import * as firebase from "../node_modules/firebase/app";
 
 class Race {
     constructor(cameraChoice, carChoice, trackChoice) {
@@ -39,7 +38,7 @@ class Race {
         this.updateHUD = this.updateHUD.bind(this);
     }
 
-    //start by initializing the scene in Three.js
+    //Start by initializing the scene in Three.js. Go through all steps to initially render and set up camera
     start() {
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0xff0000);
@@ -60,6 +59,7 @@ class Race {
 
         this.car.start(this.scene, this.camera, this.cameraChoice);
 
+        //Sets up listener for all key presses throughout the game
         document.addEventListener("keydown", this.keyDownHandler, false);
         document.addEventListener("keyup", this.keyUpHandler, false);
 
@@ -97,23 +97,22 @@ class Race {
             this.lap.startLap();
         }
 
-        // Return to this later to create dynamic camera switching
- 
-        // if (e.key == "Digit1" || e.key == "1") {
-        //     this.cameraChoice = "third-person"
-        //     this.scene.remove(this.car.boundingBox)
-        //     this.car.createBoundingBox(this.scene, this.camera, this.cameraChoice);
-        // }
-        // if (e.key == "Digit2" || e.key == "2") {
-        //     this.cameraChoice = "first-person"
-        //     this.scene.remove(this.car.boundingBox)
-        //     this.car.createBoundingBox(this.scene, this.camera, this.cameraChoice);
-        // }
-        // if (e.key == "Digit3" || e.key == "3") {
-        //     this.cameraChoice = "birds-eye"
-        //     this.scene.remove(this.car.boundingBox)
-        //     this.car.createBoundingBox(this.scene, this.camera, this.cameraChoice);
-        // }
+        // Controls let you switch dynamically from one camera to the next
+        if (e.key == "Digit1" || e.key == "1") {
+            this.cameraChoice = "third-person";
+            this.scene.remove(this.car.boundingBox);
+            this.car.createBoundingBox(this.scene, this.camera, this.cameraChoice);
+        }
+        if (e.key == "Digit2" || e.key == "2") {
+            this.cameraChoice = "first-person";
+            this.scene.remove(this.car.boundingBox);
+            this.car.createBoundingBox(this.scene, this.camera, this.cameraChoice);
+        }
+        if (e.key == "Digit3" || e.key == "3") {
+            this.cameraChoice = "birds-eye";
+            this.scene.remove(this.car.boundingBox);
+            this.car.createBoundingBox(this.scene, this.camera, this.cameraChoice);
+        }
     }
 
     //the second part of keyboard controls. have to stop inputs when the key is no longer pressed
@@ -269,9 +268,6 @@ class Race {
                 // Initialize Firebase
                 firebase.initializeApp(firebaseConfig);
 
-                // var store = firebase.firestore();
-
-
                 var leaderboard = firebase.database().ref(`${this.trackChoice}_times/`);
                 var newEntry = leaderboard.push();
                 newEntry.set({
@@ -294,8 +290,6 @@ class Race {
             document.getElementById("loading").style.display = "block";
             location.reload(true);
         })
-
-        // document.getElementById("best-times").innerHTML = 
     }
 
     assembleLeaderboard () {
@@ -335,11 +329,15 @@ class Race {
                 this.camera.rotation.x = 0
                 this.camera.rotation.z = 0
                 this.camera.rotation.y = 0
+
                 break;
             case 'third-person':
                 this.camera.rotation.x = 0
                 this.camera.rotation.z = 0
                 this.camera.rotation.y = 0
+
+                // this.camera.position.x -= (velX * Math.abs(Math.sin(this.car.model.rotation.y)))
+                // this.camera.position.z -= (velZ * Math.abs(Math.cos(this.car.model.rotation.y)))
                 break;
             default:
                 this.camera.rotation.x = -(Math.PI / 2)
