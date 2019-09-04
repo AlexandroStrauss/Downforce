@@ -57,6 +57,7 @@ class Car {
         this.boundingBox.material.transparent = true;
         this.boundingBox.material.opacity = 0;
 
+        //Set the bounding box's position and rotation equal to the model's to start
         if (this.model) {
             let x = this.model.position.x;
             let y = this.model.position.y;
@@ -67,10 +68,12 @@ class Car {
             let xrot = this.model.rotation.x;
             let yrot = this.model.rotation.y;
             let zrot = this.model.rotation.z;
+
             this.boundingBox.rotation.set(xrot, yrot, zrot);
         }
 
-        //unsuccessful attempt to allow for real-time camera controls
+        //The camera is attached to the bounding box, with its relative position changing depending on the camera type. 
+        //This method allows the camera to be removed and replaced whenever the user decides to switch the camera angle.
         if (cameraType === "first-person") {
 
             if(this.boundingBox.children[0]) {
@@ -79,9 +82,6 @@ class Car {
 
             this.boundingBox.add(camera);
 
-            // camera.position.x = this.boundingBox.position.x - 10
-            // camera.position.y = this.boundingBox.position.y + 40
-            // camera.position.z = this.boundingBox.position.z
             camera.position.set(-10, 40, 0)
 
             camera.rotation.x = 0
@@ -94,10 +94,6 @@ class Car {
             }
 
             this.boundingBox.add(camera);
-
-            // camera.position.x = this.boundingBox.position.x
-            // camera.position.y = this.boundingBox.position.y + 50
-            // camera.position.z = this.boundingBox.position.z + 150
 
             camera.position.set(0, 50, 150)
         } else {
