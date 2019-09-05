@@ -155,8 +155,7 @@ class Race {
             velocity += reverseAccel;
         }
 
-        //the specific equation here isn't based on any real-world math
-        //rather, it's what I've found feels good to control
+        //The specific equation here isn't based on any real-world math; rather, it's what I've found feels good to control
         var angleChange = Math.log10((downforce ** 2) + 1) / 384
 
         if (this.leftPressed) {
@@ -181,8 +180,7 @@ class Race {
         var velX = velocity * Math.sin(this.car.angle) / 2;
         var velZ = velocity * Math.cos(this.car.angle) / 2;
 
-        // If any collision with the Track object's array of collidableObjects is detected,
-        // the car's direction is reversed, keeping it inside the track, and its speed is dramatically reduced
+        // If any collision with the Track object's array of collidableObjects is detected, the car's direction is reversed, keeping it inside the track, and its speed is dramatically reduced
         if (collisions(this.car.boundingBox, this.track.collidableObjects)) {
             velX = -velX;
             velZ = -velZ;
@@ -233,7 +231,7 @@ class Race {
 
         document.getElementById("bestTime").innerHTML = `Your best lap time was ${timeConverter(this.bestLapRaw)}`
 
-        //to avoid a serious memory leak, the entire scene is deleted 
+        // To avoid a serious memory leak, the entire scene is immediately deleted 
         while (this.scene.children.length > 0) {
             this.scene.remove(this.scene.children[0]);
         }
@@ -336,8 +334,6 @@ class Race {
                 this.camera.rotation.z = 0
                 this.camera.rotation.y = 0
 
-                // this.camera.position.x -= (velX * Math.abs(Math.sin(this.car.model.rotation.y)))
-                // this.camera.position.z -= (velZ * Math.abs(Math.cos(this.car.model.rotation.y)))
                 break;
             default:
                 this.camera.rotation.x = -(Math.PI / 2)
@@ -371,14 +367,14 @@ class Race {
     animate() {
         this.animation = requestAnimationFrame(this.animate);
 
-        this.car.removeHUD();
+        // this.car.removeHUD(this.scene);
 
         this.updatePhysics();
 
-        // This will have no effect until I return to implementing the fancy 3D HUD
+        // This will eventually call on the method to draw a fancy 3D HUD, but for now it hurts the frame rate too much to be viable
         switch (this.cameraChoice) {
             case 'third-person':
-                this.car.drawHUD();
+                // this.car.drawHUD(this.scene);
                 break;
             case 'first-person':
                 break;

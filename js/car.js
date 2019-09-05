@@ -10,6 +10,8 @@ class Car {
         this.boundingBox = null;
         this.model = null;
         this.angle = 0;
+        this.speedHUD = null;
+        this.downforceHUD = null;
 
         this.updatePosition = this.updatePosition.bind(this);
         this.createBoundingBox = this.createBoundingBox.bind(this);
@@ -39,8 +41,13 @@ class Car {
 
         this.createBoundingBox(scene, camera, cameraType);
 
-        this.fontLoader = new THREE.FontLoader();
-        this.font = this.fontLoader.load('fonts/optimer_regular.typeface.json')
+        // this.fontLoader = new THREE.FontLoader();
+        const fontLoader = new THREE.FontLoader();
+        fontLoader.load('../fonts/optimer_regular.typeface.json',
+            function (font) {
+                this.font = font;
+            }.bind(this)
+        )
         // this.carSounds();
     }
 
@@ -141,60 +148,65 @@ class Car {
         this.angle = 0;
     }
 
-    //work-in-progress on a 3D HUD rendered behind the car
+    //Work-in-progress on a 3D HUD rendered behind the car. In its current form, it renders the HUD properly in 3D type, but drops the framerate to well below 60fps.
     drawHUD(scene) {
-        // var speedReadout = Math.floor(this.velocity) + " MPH"
-        // var downforceReadout = Math.floor(this.downforce) + " lbs"
+        if (this.font) {
+            var speedReadout = Math.floor(this.velocity) + " MPH"
+            var downforceReadout = Math.floor(this.downforce) + " lbs"
 
-        // var speedHUDGeometry = new THREE.TextGeometry(speedReadout, {
-        //     font: this.font,
-        //     size: 4,
-        //     height: 1,
-        //     curveSegments: 6,
-        //     bevelEnabled: false,
-        //     // bevelThickness: 0,
-        //     // bevelSize: 0,
-        //     // bevelOffset: 0
-        // });
+            var speedHUDGeometry = new THREE.TextGeometry(speedReadout, {
+                font: this.font,
+                size: 4,
+                height: 1,
+                curveSegments: 6,
+                bevelEnabled: false,
+                // bevelThickness: 0,
+                // bevelSize: 0,
+                // bevelOffset: 0
+            });
 
-        // var speedHUDMaterial = new THREE.MeshBasicMaterial({ color: 0x00fff0 });
-        // speedHUD = new THREE.Mesh(speedHUDGeometry, speedHUDMaterial);
-        // scene.add(speedHUD);
-        // this.model.add(speedHUD);
+            var speedHUDMaterial = new THREE.MeshBasicMaterial({ color: 0x00fff0 });
+            this.speedHUD = new THREE.Mesh(speedHUDGeometry, speedHUDMaterial);
+            // scene.add(this.speedHUD);
+            this.model.add(this.speedHUD);
 
-        // speedHUD.rotation.x = 0
-        // speedHUD.rotation.z = 0
-        // speedHUD.rotation.y = 0
+            this.speedHUD.rotation.x = 0
+            this.speedHUD.rotation.z = 0
+            this.speedHUD.rotation.y = 0
 
-        // speedHUD.position.set(5, 35, 110);
+            this.speedHUD.position.set(5, 35, 110);
 
-        // downforceHUDGeometry = new THREE.TextGeometry(downforceReadout, {
-        //     font: font,
-        //     size: 4,
-        //     height: 1,
-        //     curveSegments: 6,
-        //     bevelEnabled: false,
-        // })
-        // downforceHUDMaterial = new THREE.MeshBasicMaterial({ color: 0xcd0000 })
-        // downforceHUD = new THREE.Mesh(downforceHUDGeometry, downforceHUDMaterial);
+            var downforceHUDGeometry = new THREE.TextGeometry(downforceReadout, {
+                font: this.font,
+                size: 4,
+                height: 1,
+                curveSegments: 6,
+                bevelEnabled: false,
+            })
+            var downforceHUDMaterial = new THREE.MeshBasicMaterial({ color: 0xcd0000 })
+            this.downforceHUD = new THREE.Mesh(downforceHUDGeometry, downforceHUDMaterial);
 
-        // scene.add(downforceHUD);
-        // this.model.add(downforceHUD);
+            // scene.add(this.downforceHUD);
+            this.model.add(this.downforceHUD);
 
-        // downforceHUD.rotation.x = 0
-        // downforceHUD.rotation.z = 0
-        // downforceHUD.rotation.y = 0
+            this.downforceHUD.rotation.x = 0
+            this.downforceHUD.rotation.z = 0
+            this.downforceHUD.rotation.y = 0
 
-        // downforceHUD.position.set(5, 30, 110);
+            this.downforceHUD.position.set(5, 30, 110);
+        }
     }
 
     removeHUD(scene) {
         if (this.speedHUD) {
-            scene.remove(speedHUD)
+            // scene.remove(this.speedHUD)
+            this.model.remove(this.speedHUD)
+
         }
 
         if (this.downforceHUD) {
-            scene.remove(downforceHUD)
+            // scene.remove(this.downforceHUD)
+            this.model.remove(this.downforceHUD)
         }
     }
 
