@@ -313,3 +313,29 @@ h6 {
 #color-this {
     color: blue;
 }
+
+#save-name {
+    padding: 14px 12px; 
+    font-size: 24px;
+    position: relative;
+    left: 10px;
+    border: 2px solid orangered;
+    border-radius: 3px 0px 0px 3px;
+    outline: none;
+    z-index: 14;
+}
+
+#save-name:focus {
+    border: 2px solid #2196F3;
+    border-right-color: orangered;
+    border-right-width: 2px;
+    border-right-style: solid;
+}
+
+#save-best-lap {
+    z-index: 15;
+    /* background-color: orangered;
+    color: #000000; */
+    margin: 0;
+    border-radius: 0px 3px 3px 0px;
+}
