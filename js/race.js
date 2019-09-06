@@ -25,6 +25,7 @@ class Race {
         this.lapCount = 0;
         this.maxLaps = this.track.maxLaps;
         this.animation = null;
+        this.reachedCheckpoint = false;
 
         this.rightPressed = false;
         this.leftPressed = false;
@@ -93,8 +94,8 @@ class Race {
 
         if (e.key == "r") {
             this.car.reset();
-            this.lap = new Lap();
-            this.lap.startLap();
+            // this.lap = new Lap();
+            // this.lap.startLap();
         }
 
         // Controls let you switch dynamically from one camera to the next
@@ -195,17 +196,20 @@ class Race {
         this.car.velocity = velocity;
         this.car.downforce = downforce;
 
-        //crossingLine calculates whether the car's position will change in the next animation frame
-        //such that it will cross the start/finish line. 
+        if (this.car.crossingCheckpoint(velX, velZ)) {
+            this.reachedCheckpoint = true;
+        }
+
+        //crossingLine calculates whether the car will cross the start/finish line between this frame and the next
         //if so, end the current lap and check to see if it's better than the best time in this session 
         //and if the lap limit is reached, end the race
-        if (this.car.crossingLine(velZ)) {
+        if (this.car.crossingLine(velZ) && this.reachedCheckpoint) {
             this.lastLap = this.lap.endLap();
             var lapRaw = this.lap.partialTimeRaw; 
             var increment = Math.floor((this.car.model.position.z / velZ) * 16.667)
             lapRaw += increment
             this.lastLap += increment
-            if (lapRaw < this.bestLapRaw || this.bestLapRaw === null) {
+            if ((lapRaw < this.bestLapRaw || this.bestLapRaw === null) && this.lapCount > 0) {
                 this.bestLapRaw = lapRaw
             }
 
@@ -213,6 +217,7 @@ class Race {
             document.getElementById("bestLap").innerHTML= this.lapCount === 0 ? '' : `Best\n lap:\n ${timeConverter(this.bestLapRaw)}`;
 
             this.lapCount += 1;
+            this.reachedCheckpoint = false;
             this.lap = new Lap ();
             this.lap.startLap();
         }
@@ -340,27 +345,6 @@ class Race {
                 this.camera.rotation.z = 0
                 this.camera.rotation.y = 0
         }
-        // if (this.cameraChoice === 'first-person') {
-        //     this.camera.position.x = car.position.x
-        //     this.camera.position.z = car.position.z
-
-        //     this.camera.rotation.x = 0
-        //     this.camera.rotation.z = 0
-        //     this.camera.rotation.y = this.car.model.rotation.y
-
-        // } else if (this.cameraChoice === 'third-person') {
-        //     this.camera.position.x -= (velX * Math.abs(Math.sin(this.car.model.rotation.y)))
-        //     this.camera.position.z -= (velZ * Math.abs(Math.cos(this.car.model.rotation.y)))
-
-            // speedHUD.rotation.x = 0
-            // speedHUD.rotation.z = 0
-            // speedHUD.rotation.y = 0
-
-            // downforceHUD.rotation.x = 0
-            // downforceHUD.rotation.z = 0
-            // downforceHUD.rotation.y = 0
-
-        // }
     }
 
     //animates every frame, calling all the other methods in race.js in turn

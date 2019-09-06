@@ -219,6 +219,17 @@ class Car {
         return false;
     }
 
+    crossingCheckpoint(dX, dZ) {
+        if (this.boundingBox.position.z < 0 &&
+            (this.boundingBox.position.z - dZ / 4) > 0 && 
+            Math.abs(this.boundingBox.position.x) > 500 &&
+            Math.abs(this.boundingBox.position.x - dX / 4) > 500) 
+        {
+            return true;
+        }
+        return false;
+    }
+
     updatePosition(dX, dZ) {
         this.boundingBox.position.z -= (dZ / 4)
         this.boundingBox.position.x -= (dX / 4)
